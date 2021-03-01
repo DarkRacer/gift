@@ -25,8 +25,9 @@ public class MegaIndex {
         Map<String, String> vars = new HashMap<>();
         vars.put("key", apiKey);
         vars.put("content", content);
+        vars.put("count", "3");
 
-        return restTemplate.getForObject(megaIndexUrl + "visrep/lda_content?key={key}&content={content}",
+        return restTemplate.getForObject(megaIndexUrl + "visrep/lda_content?key={key}&count={count}&content={content}",
                 Post.class, vars);
     }
 }

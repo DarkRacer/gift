@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Class for processing the "first_name", "id", "last_name" response fields of the method users.get vk API
+ * Class for processing the "first_name", "id", "last_name", "photo_100" response fields of the method users.get vk API
  *
  * @author Maksim Shcherbakov
  */
@@ -16,4 +16,5 @@ public class ResponseUserGet {
     private String first_name;
     private Long id;
     private String last_name;
+    private String photo_100;
 }

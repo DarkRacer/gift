@@ -9,6 +9,8 @@ import com.gift.model.api.vk.Items;
 import com.gift.model.entities.Category;
 import com.gift.model.entities.CategoryWord;
 import com.gift.model.entities.Product;
+import com.gift.model.projections.SelectedCategory;
+import com.gift.repository.CategoriesRepo;
 import com.gift.repository.CategoryWordsRepo;
 import com.gift.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,56 +26,41 @@ import java.util.*;
 @Service
 public class CategoryWordsService {
     private final CategoryWordsRepo categoryWordsRepo;
-    private final ProductRepo productRepo;
-    private final MegaIndex megaIndex;
-    private final VK vk;
-    private final ProductTransactionService productTransactionService;
+    private final CategoriesRepo categoriesRepo;
 
     @Autowired
-    public CategoryWordsService(CategoryWordsRepo categoryWordsRepo, ProductRepo productRepo, MegaIndex megaIndex,
-                                VK vk, ProductTransactionService productTransactionService) {
+    public CategoryWordsService(CategoryWordsRepo categoryWordsRepo, CategoriesRepo categoriesRepo) {
         this.categoryWordsRepo = categoryWordsRepo;
-        this.productRepo = productRepo;
-        this.megaIndex = megaIndex;
-        this.vk = vk;
-        this.productTransactionService = productTransactionService;
+        this.categoriesRepo = categoriesRepo;
     }
 
-    public Set<Product> find (String userUrl) throws InterruptedException {
-        List<String> descriptions = new ArrayList<>();
-        for (Items items : vk.findUserSubscriptions(userUrl).getResponse().getItems()) {
-            descriptions.add(items.getDescription());
-        }
+    public Set<SelectedCategory> findCategories (String[] topics) {
+        List<Category> categories = categoriesRepo.findAll();
+        Set<SelectedCategory> selectedCategories = new HashSet<>();
+        Set<String> newWords = new HashSet<>(Arrays.asList(topics));
 
-        List<String> topicsList = new ArrayList<>();
 
-        descriptions.removeAll(Arrays.asList("", null));
-
-        for(String description : descriptions) {
-            if (description.length() > 1500) {
-                description = description.substring(0, 1500);
+        for (Category category : categories) {
+            List<String> words = new ArrayList<>();
+            Set<String> setTopics = new HashSet<>();
+            for (CategoryWord categoryWord : categoryWordsRepo.findCategoryWordsByCategory_Id(category.getId())) {
+                words.add(categoryWord.getWord());
             }
-             Post post = megaIndex.definingTopic(description);
-             Data[] data = post.getData();
-             Topic[] topics = data[0].getTopics();
 
-             for(Topic topic : topics) {
-                 topicsList.add(topic.getTopic());
-             }
-            Thread.sleep(200);
-         }
-
-        List<CategoryWord> categoryWords = categoryWordsRepo.findAll();
-        Set<Category> selectedCategories = new HashSet<>();
-        Set<String> newWords = new HashSet<>();
-
-        for (String word : topicsList){
-            newWords.add(word);
-            for (CategoryWord wordCat : categoryWords){
-                if (word.toLowerCase().equals(wordCat.getWord().toLowerCase())){
-                    selectedCategories.add(wordCat.getCategory());
-                    newWords.remove(word);
+            for (String word : words) {
+                for (String topic : topics) {
+                    if (word.toLowerCase().equals(topic.toLowerCase())){
+                        setTopics.add(word);
+                        newWords.remove(word);
+                    }
                 }
+            }
+
+            if (!setTopics.isEmpty()){
+                selectedCategories.add(new SelectedCategory(category.getId(),
+                        category.getName(),
+                        new ArrayList<>(setTopics)));
+                newWords.removeAll(setTopics);
             }
         }
 
@@ -81,19 +68,11 @@ public class CategoryWordsService {
             categoryWordsRepo.save(newW);
         }
 
-//      Remove when there is a sufficient number of transactions
-        Set<Product> products = new HashSet<>();
         if (selectedCategories.isEmpty()) {
-            products.addAll(productRepo.findByCategory((long) 4));
-        } else {
-            for (Category category : selectedCategories) {
-                products.addAll(productRepo.findByCategory(category.getId()));
-            }
+            Category category = categoriesRepo.findCategoriesById((long) 1);
+            selectedCategories.add(new SelectedCategory(category.getId(), category.getName(), new ArrayList<>(newWords)));
         }
 
-//      Use it when there is a sufficient number of transactions
-//      Set<Product> products = new HashSet<>(productTransactionService.findProduct(selectedCategories));
-
-        return products;
+        return selectedCategories;
     }
 }

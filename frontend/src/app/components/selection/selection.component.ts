@@ -1,10 +1,14 @@
-import { Component, Inject, Injectable, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SelectionService } from '../../services/selection.service';
 import { ProductModel } from '../../model/product.model';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
-import { SaveDialogComponent } from '../save-dialog/save-dialog.component';
+import { GroupModel } from '../../model/group.model';
+import { UserVkModel } from '../../model/userVk.model';
+import { CategoryModel } from '../../model/category.model';
+import { SelfDialogComponent } from '../self-dialog/self-dialog.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-selection',
@@ -13,28 +17,45 @@ import { SaveDialogComponent } from '../save-dialog/save-dialog.component';
 })
 export class SelectionComponent implements OnInit {
   columns = ['id', 'name', 'description', 'price', 'catalogUrl', 'function'];
+  columnsGroup = ['id', 'photo', 'name'];
+  columnsCategory = ['name', 'topics'];
   products: ProductModel[] = [];
-  count = 0;
-  userUrl = new FormControl('', [
-    Validators.required,
-    Validators.pattern(/https?:\/\/(www\.)?vk\.com\//i)
-  ]);
+  groups: GroupModel[] = [];
+  users: UserVkModel[] = [];
+  selectionElement: GroupModel | undefined = undefined;
+  categories: CategoryModel[] = [];
+  topics: string[] = [];
+  datasourceProduct = new MatTableDataSource<ProductModel>(this.products);
+  initialSize = 0;
+  userUrlGroup: FormGroup = new FormGroup({
+    userUrlCtrl: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/https?:\/\/(www\.)?vk\.com\//i)
+    ])
+  });
   selectProducts: ProductModel[] = [];
   selection = new SelectionModel<ProductModel>(true, []);
 
-  constructor(private readonly selectionService: SelectionService, public dialog: MatDialog) {}
+  constructor(
+    private readonly selectionService: SelectionService,
+    public dialog: MatDialog,
+    private changeDetectorRefs: ChangeDetectorRef
+  ) {}
 
-  ngOnInit(): void {}
-
-  select(): void {
-    this.count = -1;
-    this.selectionService.find(this.userUrl.value).subscribe((e) => {
-      this.products = e;
-    });
+  ngOnInit(): void {
+    this.refresh();
   }
 
-  _c(row: unknown): ProductModel {
-    return row as ProductModel;
+  select(): void {
+    this.selectionService.findUser(this.userUrlGroup.controls.userUrlCtrl.value).subscribe((e) => {
+      this.users[0] = e;
+    });
+
+    this.selectionService
+      .findGroups(this.userUrlGroup.controls.userUrlCtrl.value)
+      .subscribe((e) => {
+        this.groups = e;
+      });
   }
 
   selectProduct(productModel: ProductModel, isSelect: boolean): void {
@@ -46,23 +67,66 @@ export class SelectionComponent implements OnInit {
   }
 
   save(): void {
-    this.selectionService.save(this.userUrl.value, this.selectProducts).subscribe();
+    this.selectionService.save('/', this.selectProducts).subscribe();
+  }
 
-    const dialogRef = this.dialog.open(SaveDialogComponent, {
-      width: '250px'
-    });
+  findCategories(): void {
+    for (const group of this.groups) {
+      for (const topic of group.topics) {
+        this.topics[this.topics.length] = topic;
+      }
+    }
 
-    dialogRef.afterClosed().subscribe((result) => {
-      this.count = 0;
-      this.userUrl.setValue('');
+    this.selectionService.findCategories(this.topics).subscribe((e) => {
+      this.categories = e;
     });
   }
 
-  getErrorMessage(): string {
-    if (this.userUrl.hasError('required')) {
-      return 'Вы должны ввести значение';
-    }
+  findProducts(): void {
+    this.selectionService.findProducts(this.categories).subscribe((e) => {
+      this.products = e;
+      this.initialSize = this.products.length;
+      this.refresh();
+    });
+  }
 
-    return this.userUrl.hasError('userUrl') ? 'Не правильная ссылка на профиль' : '';
+  selectRow(row: any): void {
+    this.selectionElement = row as GroupModel;
+  }
+
+  generateUrlGroup(screenName: string): string {
+    return 'https://vk.com/' + screenName;
+  }
+
+  _group(row: any): GroupModel {
+    return row as GroupModel;
+  }
+
+  _category(row: any): CategoryModel {
+    return row as CategoryModel;
+  }
+
+  _product(row: any): ProductModel {
+    return row as ProductModel;
+  }
+
+  selectSelf(): void {
+    const dialogRef = this.dialog.open(SelfDialogComponent, {
+      width: '80%',
+      height: '80%',
+      data: this.products
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.products.push(result);
+        this.refresh();
+      }
+    });
+  }
+
+  refresh(): void {
+    this.datasourceProduct = new MatTableDataSource<ProductModel>(this.products);
+    this.changeDetectorRefs.detectChanges();
   }
 }

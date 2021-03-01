@@ -17,6 +17,8 @@ public interface CategoryWordsRepo extends JpaRepository<CategoryWord, String> {
     @Query(value = "select * from gift.category_words", nativeQuery = true)
     List<CategoryWord> findAll ();
 
+    List<CategoryWord> findCategoryWordsByCategory_Id(Long id);
+
     @Modifying
     @Query(value = "insert into gift.category_words (category_id, word) values (1, :word)", nativeQuery = true)
     void save(@Param("word") String word);

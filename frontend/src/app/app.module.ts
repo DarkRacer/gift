@@ -16,12 +16,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { SaveDialogComponent } from './components/save-dialog/save-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { SelfDialogComponent } from './components/self-dialog/self-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectionComponent, SaveDialogComponent],
+  declarations: [AppComponent, SelectionComponent, SelfDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,8 +40,10 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatProgressSpinnerModule,
     MatIconModule,
     MatCheckboxModule,
-    MatPaginatorModule,
     MatDialogModule,
+    MatStepperModule,
+    MatCardModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent],

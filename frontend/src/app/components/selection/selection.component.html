@@ -1,76 +1,290 @@
-<div class="selection">
-  <form *ngIf="count >= 0">
-    <mat-form-field appearance="fill" class="url">
-      <mat-label>Ссылка на получателя</mat-label>
-      <input matInput placeholder="https://vk.com/xxxxxxxxxxxx" [formControl]="userUrl" required />
-      <mat-icon matPrefix>link</mat-icon>
-      <mat-error *ngIf="userUrl.invalid && (userUrl.dirty || userUrl.touched)">{{
-        getErrorMessage()
-      }}</mat-error>
-    </mat-form-field>
-    <button mat-raised-button color="primary" class="select" (click)="select()">Поиск</button>
-  </form>
+<div>
+  <mat-horizontal-stepper [linear]="true" #stepper>
+    <mat-step [stepControl]="userUrlGroup">
+      <form [formGroup]="userUrlGroup">
+        <ng-template matStepLabel>Ссылка на пользователя</ng-template>
+        <mat-form-field class="url-text">
+          <mat-label>URL</mat-label>
+          <input
+            matInput
+            placeholder="https://vk.com/xxxxxxxxxxxx"
+            formControlName="userUrlCtrl"
+            required
+          />
+          <mat-icon matPrefix>link</mat-icon>
+        </mat-form-field>
+        <div class="select">
+          <button
+            mat-raised-button
+            color="primary"
+            matStepperNext
+            (click)="select()"
+            class="select"
+          >
+            Далее
+          </button>
+        </div>
+      </form>
+    </mat-step>
 
-  <table
-    mat-table
-    [dataSource]="products"
-    class="table"
-    *ngIf="products.length > 0 && count === -1"
-  >
-    <ng-container matColumnDef="id">
-      <th *matHeaderCellDef mat-header-cell>ID</th>
-      <td *matCellDef="let row" mat-cell>{{ _c(row).id }}</td>
-    </ng-container>
+    <mat-step label="Группы">
+      <form *ngIf="users.length > 0" class="user">
+        <form>
+          <img
+            [src]="users[0].photo_100"
+            alt="{{ users[0].first_name }} {{ users[0].last_name }}"
+          />
+        </form>
+        <form>
+          <a [href]="userUrlGroup.controls.userUrlCtrl.value" class="urlUser"
+            >{{ users[0].first_name }} {{ users[0].last_name }}</a
+          >
+        </form>
+      </form>
 
-    <ng-container matColumnDef="name">
-      <th *matHeaderCellDef mat-header-cell>Название</th>
-      <td *matCellDef="let row" mat-cell>{{ _c(row).name }}</td>
-    </ng-container>
+      <div class="info">
+        <table mat-table [dataSource]="groups" class="groups" *ngIf="groups.length > 0">
+          <ng-container matColumnDef="id">
+            <th *matHeaderCellDef mat-header-cell>№</th>
+            <td *matCellDef="let i = index" mat-cell>{{ i + 1 }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="description">
-      <th *matHeaderCellDef mat-header-cell>Описание</th>
-      <td *matCellDef="let row" mat-cell>{{ _c(row).description }}</td>
-    </ng-container>
+          <ng-container matColumnDef="photo">
+            <th *matHeaderCellDef mat-header-cell></th>
+            <td *matCellDef="let row" mat-cell>
+              <img [src]="_group(row).photo_50" />
+            </td>
+          </ng-container>
 
-    <ng-container matColumnDef="price">
-      <th *matHeaderCellDef mat-header-cell>Цена</th>
-      <td *matCellDef="let row" mat-cell>{{ _c(row).price }}</td>
-    </ng-container>
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell>Название</th>
+            <td *matCellDef="let row" mat-cell>{{ _group(row).name }}</td>
+          </ng-container>
 
-    <ng-container matColumnDef="catalogUrl">
-      <th *matHeaderCellDef mat-header-cell>Ссылка на каталог</th>
-      <td *matCellDef="let row" mat-cell>{{ _c(row).catalogUrl }}</td>
-    </ng-container>
+          <tr *matHeaderRowDef="columnsGroup" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: columnsGroup" mat-row (click)="selectRow(row)"></tr>
+        </table>
 
-    <ng-container matColumnDef="function">
-      <th mat-header-cell *matHeaderCellDef>Выбрать</th>
-      <td mat-cell *matCellDef="let row">
-        <mat-checkbox
-          (click)="$event.stopPropagation(); selectProduct(_c(row), selection.isSelected(row))"
-          (change)="$event ? selection.toggle(row) : null"
-          [checked]="selection.isSelected(row)"
+        <mat-card class="card-group" *ngIf="selectionElement">
+          <mat-card-header>
+            <mat-card-title>{{ selectionElement.name }}</mat-card-title>
+            <mat-card-subtitle>Тематики группы - {{ selectionElement.topics }}</mat-card-subtitle>
+          </mat-card-header>
+          <img
+            [src]="selectionElement.photo_200"
+            class="card-group-photo"
+            alt="{{ selectionElement.name }}"
+          />
+          <mat-card-content class="card-group-content">{{
+            selectionElement.description
+          }}</mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button color="primary" class="button">
+              <a [href]="generateUrlGroup(selectionElement.screen_name)" class="url-button">
+                Перейти в группу
+              </a>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+
+      <div>
+        <button
+          mat-raised-button
           color="primary"
+          matStepperPrevious
+          class="back"
+          *ngIf="groups.length > 0"
         >
-        </mat-checkbox>
-      </td>
-    </ng-container>
+          Назад
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          class="next"
+          *ngIf="groups.length > 0"
+          (click)="findCategories()"
+        >
+          Далее
+        </button>
+      </div>
+      <mat-spinner *ngIf="groups.length === 0" mode="indeterminate" class="spinner"></mat-spinner>
+    </mat-step>
 
-    <tr *matHeaderRowDef="columns" mat-header-row></tr>
-    <tr *matRowDef="let row; columns: columns" mat-row></tr>
-  </table>
+    <mat-step label="Категории">
+      <form *ngIf="users.length > 0" class="user">
+        <form>
+          <img
+            [src]="users[0].photo_100"
+            alt="{{ users[0].first_name }} {{ users[0].last_name }}"
+          />
+        </form>
+        <form>
+          <a [href]="userUrlGroup.controls.userUrlCtrl.value" class="urlUser"
+            >{{ users[0].first_name }} {{ users[0].last_name }}</a
+          >
+        </form>
+      </form>
 
-  <mat-spinner
-    *ngIf="products.length === 0 && count === -1"
-    mode="indeterminate"
-    class="spinner"
-  ></mat-spinner>
-  <button
-    mat-raised-button
-    color="primary"
-    class="save"
-    *ngIf="products.length > 0 && count === -1"
-    (click)="save()"
-  >
-    Сохранить
-  </button>
+      <table mat-table [dataSource]="categories" class="table" *ngIf="categories.length > 0">
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef mat-header-cell>Выбранная категория</th>
+          <td *matCellDef="let row" mat-cell>{{ _category(row).name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="topics">
+          <th *matHeaderCellDef mat-header-cell>Побудившие тематики</th>
+          <td *matCellDef="let row" mat-cell>{{ _category(row).topics }}</td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="columnsCategory" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: columnsCategory" mat-row></tr>
+      </table>
+
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+          class="back"
+          *ngIf="categories.length > 0"
+        >
+          Назад
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          class="next"
+          *ngIf="categories.length > 0"
+          (click)="findProducts()"
+        >
+          Далее
+        </button>
+      </div>
+      <mat-spinner
+        *ngIf="categories.length === 0"
+        mode="indeterminate"
+        class="spinner"
+      ></mat-spinner>
+    </mat-step>
+
+    <mat-step label="Подарки">
+      <form *ngIf="users.length > 0" class="user">
+        <form>
+          <img
+            [src]="users[0].photo_100"
+            alt="{{ users[0].first_name }} {{ users[0].last_name }}"
+          />
+        </form>
+        <form>
+          <a [href]="userUrlGroup.controls.userUrlCtrl.value" class="urlUser"
+            >{{ users[0].first_name }} {{ users[0].last_name }}</a
+          >
+        </form>
+      </form>
+
+      <table mat-table [dataSource]="datasourceProduct" class="table" *ngIf="products.length > 0">
+        <ng-container matColumnDef="id">
+          <th *matHeaderCellDef mat-header-cell>Star</th>
+          <td *matCellDef="let i = index" mat-cell>
+            <div *ngIf="i < initialSize">
+              <mat-icon *ngFor="let k of [].constructor(5 - i)">star_rate</mat-icon>
+            </div>
+            <div *ngIf="i >= initialSize">
+              <label>Выбран самостоятельно</label>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th *matHeaderCellDef mat-header-cell>Название</th>
+          <td *matCellDef="let row" mat-cell>{{ _product(row).name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th *matHeaderCellDef mat-header-cell>Описание</th>
+          <td *matCellDef="let row" mat-cell>{{ _product(row).description }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+          <th *matHeaderCellDef mat-header-cell>Цена</th>
+          <td *matCellDef="let row" mat-cell>{{ _product(row).price }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="catalogUrl">
+          <th *matHeaderCellDef mat-header-cell>Ссылка на каталог</th>
+          <td *matCellDef="let row" mat-cell>
+            <button mat-raised-button color="primary">
+              <a [href]="_product(row).catalogUrl" class="url-button">В магазин</a>
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="function">
+          <th mat-header-cell *matHeaderCellDef>Выбрать</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="
+                $event.stopPropagation(); selectProduct(_product(row), selection.isSelected(row))
+              "
+              (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)"
+              color="primary"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <tr *matHeaderRowDef="columns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: columns" mat-row></tr>
+      </table>
+
+      <div>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperPrevious
+          class="back"
+          *ngIf="products.length > 0"
+        >
+          Назад
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          class="self"
+          *ngIf="products.length > 0"
+          (click)="selectSelf()"
+        >
+          Выбери сам
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          matStepperNext
+          class="next-last"
+          *ngIf="products.length > 0"
+          (click)="save()"
+        >
+          Далее
+        </button>
+      </div>
+      <mat-spinner *ngIf="products.length === 0" mode="indeterminate" class="spinner"></mat-spinner>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Конец</ng-template>
+      <form class="end">
+        <p>Подарки подобраны и сохранены у тебя в профиле</p>
+        <div>
+          <button mat-raised-button color="primary">
+            <a href="selection" class="url-button">Заново</a>
+          </button>
+          <button mat-raised-button color="primary" class="button-home" routerLink="/">В главное меню</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
 </div>

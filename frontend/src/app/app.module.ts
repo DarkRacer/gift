@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -21,14 +21,21 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatCardModule} from '@angular/material/card';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { SelfDialogComponent } from './components/self-dialog/self-dialog.component';
+import {JsonpModule } from '@angular/http';
+import { UserComponent } from './components/user/user.component';
+import { LoginComponent } from './components/login/login.component';
+import {MatListModule} from "@angular/material/list";
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
-  declarations: [AppComponent, SelectionComponent, SelfDialogComponent],
+  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
+    JsonpModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -43,7 +50,9 @@ import { SelfDialogComponent } from './components/self-dialog/self-dialog.compon
     MatDialogModule,
     MatStepperModule,
     MatCardModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatListModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

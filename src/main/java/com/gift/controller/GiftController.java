@@ -7,6 +7,7 @@ import com.gift.model.projections.Group;
 import com.gift.service.GiftService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,12 @@ public class GiftController {
     @Autowired
     public GiftController(GiftService giftService) {
         this.giftService = giftService;
+    }
+
+    @GetMapping("/g")
+    public String g () {
+        System.out.println(1);
+        return "work";
     }
 
     @PostMapping("/find/groups")

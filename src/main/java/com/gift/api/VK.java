@@ -22,6 +22,10 @@ public class VK {
     private String version;
     @Value("${vk.api.access_token}")
     private String accessToken;
+    @Value("${spring.security.oauth2.client.registration.vk.client-id}")
+    private String clientId;
+    @Value("${spring.security.oauth2.client.registration.vk.redirect-uri}")
+    private String redirectUri;
     private RestTemplate restTemplate = new RestTemplate();
 
     public ResponseUser findUserId (String userUrl) {

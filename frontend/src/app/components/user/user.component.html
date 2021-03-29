@@ -1,0 +1,24 @@
+<div class="content">
+  <mat-selection-list #shoes [multiple]="false" class="list">
+    <mat-list-option *ngFor="let shoe of typesOfShoes" [value]="shoe"
+                     (click)="menu(shoes.selectedOptions.selected[0]?.value)">
+      {{shoe}}
+    </mat-list-option>
+  </mat-selection-list>
+
+  <div class="form">
+    <form>
+      <img
+        [src]="users[0].photo_100"
+        alt="{{ users[0].first_name }} {{ users[0].last_name }}"
+        class="photo"
+      />
+    </form>
+    <form>
+      <mat-label class="text">{{ users[0].first_name }} {{ users[0].last_name }}</mat-label>
+      <mat-divider></mat-divider>
+      <mat-label class="text-count">Количество подбора подарков: </mat-label>
+    </form>
+  </div>
+</div>
+

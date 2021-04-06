@@ -1,14 +1,16 @@
 import { UserRole } from './user-role.model';
 
 export interface ExistingUser {
-  id: string;
-  username: string;
+  id: number;
+  providerUserId: number;
   firstName: string;
   lastName: string;
-  email: string;
   picture: string;
+  provider: string;
+  email: string | null;
+  name: string;
   token?: string;
   role?: UserRole;
-  createdAt: string;
+  createdAt?: string;
   createdBy?: number;
 }

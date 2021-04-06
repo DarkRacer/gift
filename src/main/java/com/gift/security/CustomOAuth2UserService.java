@@ -1,6 +1,5 @@
 package com.gift.security;
 
-import com.gift.model.api.vk.VkOAuth2User;
 import com.gift.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -41,8 +40,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
-        VkOAuth2User vkOAuth2User = new VkOAuth2User(oAuth2User.getAttributes());
-
         return userService.processUserRegistration("vk", oAuth2User.getAttributes(), null, null);
     }
 
@@ -57,7 +54,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String uri = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUri();
         String userNameAttributeName = oAuth2UserRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
         uri = uri.replace("{user_id}", userNameAttributeName + "=" + oAuth2UserRequest.getAdditionalParameters().get(userNameAttributeName));
-        uri += "?v=5.21&fields=photo_50";
+        uri += "?v=5.21&fields=photo_200";
         ResponseEntity<Object> entity = template.exchange(uri, HttpMethod.GET, httpRequest, Object.class);
         Map<String, Object> response = (Map) entity.getBody();
         ArrayList valueList = (ArrayList) response.get("response");

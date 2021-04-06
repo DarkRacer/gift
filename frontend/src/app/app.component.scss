@@ -2,9 +2,24 @@
   color: white;
   text-decoration: none;
 }
-.user {
+.login {
   color: white;
   position: absolute;
   right: 2%;
   font-size: 20px;
+}
+.user {
+  color: white;
+  position: absolute;
+  right: 5%;
+  font-size: 20px;
+}
+.photo {
+  width: 10%;
+  height: 10%;
+  border-radius: 20px;
+  box-shadow: 0 0 0 2px snow, 0 0 20px #333;
+  right: 2%;
+  margin-left: 5%;
+  margin-top: 1%;
 }

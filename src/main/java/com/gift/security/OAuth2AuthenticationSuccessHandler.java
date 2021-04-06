@@ -1,25 +1,21 @@
 package com.gift.security;
 
-
-import com.gift.exception.BadRequestException;
+import com.gift.model.projections.LocalUser;
 import com.gift.util.CookieUtils;
 import com.vk.api.sdk.client.TransportClient;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Optional;
 
 import static com.gift.security.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
@@ -29,25 +25,18 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	private TokenProvider tokenProvider;
 
-	private AppProperties appProperties;
-
-	private UserAuthResponse authResponse;
-
-	TransportClient transportClient = HttpTransportClient.getInstance();
-	VkApiClient vk = new VkApiClient(transportClient);
 
 	private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
 	@Autowired
-	OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider, AppProperties appProperties,
+	OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider,
 			HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
 		this.tokenProvider = tokenProvider;
-		this.appProperties = appProperties;
 		this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
 	}
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		String targetUrl = determineTargetUrl(request, response, authentication);
 
 
@@ -56,10 +45,20 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			return;
 		}
 
-		response.setHeader("Authorization", tokenProvider.createToken(authentication));
-
 		clearAuthenticationAttributes(request, response);
+		LocalUser userPrincipal = (LocalUser) authentication.getPrincipal();
+
+		Cookie token = new Cookie("Authorization", tokenProvider.createToken(authentication));
+		Cookie userId = new Cookie("user_id", String.valueOf(userPrincipal.getUser().getId()));
+
+		token.setPath("/user");
+		response.addCookie(token);
+
+		userId.setPath("/user");
+		response.addCookie(userId);
+
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
+
 	}
 
 	@Override

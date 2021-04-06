@@ -115,4 +115,9 @@ public class UserServiceImpl implements UserService {
 	public Users findUsersByProviderUserId(Integer id) {
 		return userRepository.findUsersByProviderUserId(id);
 	}
+
+	@Override
+	public Users findUsersByUserId(Long id) {
+		return userRepository.findUsersById(id);
+	}
 }

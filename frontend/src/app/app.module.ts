@@ -26,6 +26,8 @@ import { UserComponent } from './components/user/user.component';
 import { LoginComponent } from './components/login/login.component';
 import {MatListModule} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
+import {CoreModule} from "./core/core.module";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent],
@@ -52,7 +54,9 @@ import {MatDividerModule} from "@angular/material/divider";
     MatCardModule,
     MatExpansionModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    CoreModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent],

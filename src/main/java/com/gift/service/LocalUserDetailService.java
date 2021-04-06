@@ -37,7 +37,7 @@ public class LocalUserDetailService implements UserDetailsService {
 
 	@Transactional
 	public LocalUser loadUserById(Integer id) {
-		Users user = userService.findUsersByProviderUserId(id);
+		Users user = userService.findUsersByUserId(Long.valueOf(id));
 		return createLocalUser(user);
 	}
 

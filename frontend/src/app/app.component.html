@@ -1,7 +1,16 @@
 <mat-toolbar color="primary">
   <a href="selection" class="selection">Подбор подарка</a>
-  <button mat-icon-button class="user" aria-label="Icon button user" routerLink="login">
+  <button mat-button class="login" routerLink="login" *ngIf="!isLoggedIn">
     Войти
   </button>
+
+  <button mat-button class="user" [mat-menu-trigger-for]="menu" *ngIf="isLoggedIn">
+    {{user.firstName}} {{user.lastName}}
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/user">Профиль</button>
+    <button mat-menu-item (click)="logout()">Выйти</button>
+  </mat-menu>
+
 </mat-toolbar>
 <router-outlet></router-outlet>

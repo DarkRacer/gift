@@ -23,6 +23,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,6 +37,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Collections;
@@ -45,38 +50,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/auth")
 public class Auth {
-    @Value("${spring.security.oauth2.client.registration.vk.client-id}")
-    private Integer clientId;
-    @Value("${spring.security.oauth2.client.registration.vk.client-secret}")
-    private String clientSecret;
-    @Value("${spring.security.oauth2.client.registration.vk.redirect-uri}")
-    private String redirectUrl;
-
-    TransportClient transportClient = HttpTransportClient.getInstance();
-    VkApiClient vk = new VkApiClient(transportClient);
-
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<?> getCurrentUser(@CurrentUser LocalUser user) {
         return ResponseEntity.ok(GeneralUtils.buildUserInfo(user));
     }
-
-    @GetMapping("/")
-    public List<GetResponse> login (@RequestParam("code") String code) throws ClientException, ApiException {
-        UserAuthResponse authResponse = vk.oAuth()
-                .userAuthorizationCodeFlow(clientId, clientSecret, redirectUrl, code)
-                .execute();
-
-        UserActor actor = new UserActor(authResponse.getUserId(), authResponse.getAccessToken());
-
-        List<GetResponse> execute = vk.users().get(actor).fields(Fields.ABOUT).execute();
-        return execute;
-    }
-
-    @GetMapping("/vk")
-    public String loginVk (@AuthenticationPrincipal Principal principal) {
-        System.out.println(principal);
-        return "Work";
-    }
-
 }

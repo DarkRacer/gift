@@ -1,33 +1,68 @@
 .content {
   display: flex;
+  flex-direction: column;
+}
+.user-content {
+  display: flex;
   flex-direction: row;
 }
-.list {
-  width: 20%;
-}
-.form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  left: 30%;
-  width: 80%;
-}
 .photo {
-  top: 40%;
+  width: 10%;
+  height: 10%;
   border-radius: 80px;
   box-shadow: 0 0 0 2px snow, 0 0 20px #333;
+  left: 10%;
+  margin-left: 5%;
+  margin-top: 1%;
 }
-.text {
-  font-size: 22px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
+.info {
+  width:120%;
+  margin-top: 1%;
+  margin-left: 10%;
 }
-.text-count {
-  font-size: 16px;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  color: #333333;
+.vk {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 5%;
+}
+.google {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 5%;
+}
+.info-content {
+  display: flex;
+  flex-direction: row;
+}
+.info-1 {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5%;
+}
+.info-2 {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5%;
+}
+.button-save {
+  margin-left: 38%;
+}
+.wish {
+  margin-left: 12%;
+  width: 43%;
+}
+
+.selection {
+  margin-top: 2%;
+}
+.icon-user {
+  color: black;
+  transform: scale(4);
+  left: 10%;
+  margin-left: 5%;
+  margin-top: 2%;
 }

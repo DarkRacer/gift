@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ExistingUser } from '../../model/existing-user.model';
 import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
 import { catchError, tap } from 'rxjs/operators';
 import { CurrentUserService } from './current-user.service';
 

@@ -1,4 +1,4 @@
-<mat-card class="card-login">
+<mat-card class="card-login" *ngIf="!content">
   <mat-card-header class="mat-card-header">
     <mat-icon class="icon-user">account_circle</mat-icon>
     <mat-card-title class="mat-card-title">
@@ -9,11 +9,8 @@
     <a href="" class="google">
       <img alt="Вход с помощью Google" src="/assets/img/google.png" class="btn-img">
     </a>
-<!--    <a href="http://localhost:8080/oauth2/authorization/vk?redirect_uri=http://localhost:4200/user" class="vk">-->
-<!--      <img alt="Вход с помощью Vk" src="/assets/img/vkontakte.png" class="btn-img">-->
-<!--    </a>-->
-    <button (click)="login('vk')" class="vk" >
-     <img alt="Вход с помощью Vk" src="/assets/img/vkontakte.png" class="btn-img">
-    </button>
+    <a href="http://localhost:8080/oauth2/authorization/vk?redirect_uri=http://localhost:4200/user" class="vk">
+      <img alt="Вход с помощью Vk" src="/assets/img/vkontakte.png" class="btn-img">
+    </a>
   </mat-card-content>
 </mat-card>

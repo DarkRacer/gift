@@ -18,5 +18,7 @@ public interface UserService {
 
 	Users findUsersByProviderUserId(Integer id);
 
+	Users findUsersByUserId(Long id);
+
 	LocalUser processUserRegistration(String registrationId, Map<String, Object> attributes, OidcIdToken idToken, OidcUserInfo userInfo);
 }

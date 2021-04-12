@@ -9,6 +9,8 @@ import { UserVkModel } from '../../model/userVk.model';
 import { CategoryModel } from '../../model/category.model';
 import { SelfDialogComponent } from '../self-dialog/self-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
+import {ExistingUser} from "../../model/existing-user.model";
+import {CurrentUserService} from "../../core/auth/current-user.service";
 
 @Component({
   selector: 'app-selection',
@@ -20,6 +22,8 @@ export class SelectionComponent implements OnInit {
   columnsGroup = ['id', 'photo', 'name'];
   columnsCategory = ['name', 'topics'];
   products: ProductModel[] = [];
+  // @ts-ignore
+  user: ExistingUser = this.currentUserService.user$.getValue();
   groups: GroupModel[] = [];
   users: UserVkModel[] = [];
   selectionElement: GroupModel | undefined = undefined;
@@ -39,7 +43,8 @@ export class SelectionComponent implements OnInit {
   constructor(
     private readonly selectionService: SelectionService,
     public dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef
+    private changeDetectorRefs: ChangeDetectorRef,
+    private currentUserService: CurrentUserService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +72,7 @@ export class SelectionComponent implements OnInit {
   }
 
   save(): void {
-    this.selectionService.save('/', this.selectProducts).subscribe();
+    this.selectionService.save(this.userUrlGroup.controls.userUrlCtrl.value, this.selectProducts, this.user.id).subscribe();
   }
 
   findCategories(): void {
@@ -83,7 +88,7 @@ export class SelectionComponent implements OnInit {
   }
 
   findProducts(): void {
-    this.selectionService.findProducts(this.categories).subscribe((e) => {
+    this.selectionService.findProducts(this.categories, this.users[0].id).subscribe((e) => {
       this.products = e;
       this.initialSize = this.products.length;
       this.refresh();

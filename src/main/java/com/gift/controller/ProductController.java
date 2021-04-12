@@ -2,6 +2,7 @@ package com.gift.controller;
 
 import com.gift.model.entities.Category;
 import com.gift.model.entities.Product;
+import com.gift.model.projections.GiftCriteria;
 import com.gift.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping("/find")
-    public List<Product> findProduct (@RequestBody Set<Category> categories) throws InterruptedException {
-        return productService.findProduct(categories);
+    public List<Product> findProduct (@RequestBody GiftCriteria giftCriteria) throws InterruptedException {
+        return productService.findProduct(giftCriteria);
     }
 }

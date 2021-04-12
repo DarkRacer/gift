@@ -25,12 +25,13 @@ export class SelectionService {
     return this.http.post(`api/categories/find`, topics);
   }
 
-  findProducts(categories: CategoryModel[]): Observable<any> {
-    return this.http.post(`api/products/find`, categories);
+  findProducts(categories: CategoryModel[], userId: number): Observable<any> {
+    const body = {categories, userId};
+    return this.http.post(`api/products/find`, body);
   }
 
-  save(recipient: string, products: ProductModel[]): Observable<any> {
-    const body = { recipient, products };
+  save(recipient: string, products: ProductModel[], sender: number): Observable<any> {
+    const body = { recipient, products, sender };
     return this.http.post(`api/transaction/save`, body);
   }
 
@@ -38,10 +39,35 @@ export class SelectionService {
     return this.http.get(`api/oauth2/authorization/vk`);
   }
 
-  loginVk(): Observable<any>  {
-    return this.http.jsonp('api/oauth2/authorization/vk', "callback");
-  }
   selectSelf(products: ProductModel[]): Observable<any> {
     return this.http.post(`${this.service}/gifts/self`, products);
+  }
+
+  loadWish(userId: number): Observable<any> {
+    return this.http.post(`api/transaction/wish`, userId);
+  }
+
+  loadHistory(userId: number): Observable<any> {
+    return this.http.post(`api/transaction/history`, userId);
+  }
+
+  delete(id : number, productId: number): Observable<any> {
+    const body = { id, productId };
+    return this.http.post(`api/transaction/wish/delete`, body);
+  }
+
+  saveWish (id : number, productId: number): Observable<any> {
+    const body = {id, productId};
+    return this.http.post(`api/transaction/wish/save`, body);
+  }
+
+  deleteSelectionsHistory(id : number, productId: number): Observable<any> {
+    const body = { id, productId };
+    return this.http.post(`api/transaction/selectionsHistory/delete`, body);
+  }
+
+  saveSelectionsHistory (id : number, productId: number): Observable<any> {
+    const body = {id, productId};
+    return this.http.post(`api/transaction/selectionsHistory/save`, body);
   }
 }

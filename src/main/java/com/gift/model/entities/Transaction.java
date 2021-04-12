@@ -25,6 +25,13 @@ public class Transaction {
     @Column(name = "recipient")
     private String recipient;
 
+    @ManyToOne(targetEntity = Users.class)
+    @JoinColumn(name = "sender_id")
+    private Users sender;
+
+    @Column(name = "is_wish")
+    private boolean isWish;
+
     public Transaction(String recipient) {
         this.recipient = recipient;
     }

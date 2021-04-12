@@ -5,16 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Projection to save the products selected by the user
- *
- * @author Maksim Shcherbakov
- */
+import java.util.Set;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Choice {
-    private String recipient;
-    private Product[] products;
-    private Long sender;
+public class SelectionsHistory {
+    private Long transactionId;
+    private String name;
+    private String url;
+    private String photo_100;
+    private Set<Product> gifts;
 }

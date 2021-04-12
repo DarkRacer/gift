@@ -28,9 +28,11 @@ import {MatListModule} from "@angular/material/list";
 import {MatDividerModule} from "@angular/material/divider";
 import {CoreModule} from "./core/core.module";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatGridListModule} from "@angular/material/grid-list";
+import { ProductsSelectionDialogComponent } from './components/products-selection-dialog/products-selection-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent],
+  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -56,7 +58,8 @@ import {MatMenuModule} from "@angular/material/menu";
     MatListModule,
     MatDividerModule,
     CoreModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent],

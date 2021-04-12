@@ -35,7 +35,7 @@ class CustomRequestEntityConverter implements
         String url = String.valueOf(entity.getUrl());
 
         url += "?client_id=" + params.get("client_id")
-                + "&client_secret=" + clientSecret
+                + "&client_secret=" + "8XzMe6W9BlK7b8tkv7Im"
                 + "&redirect_uri=" + params.get("redirect_uri").toString()
                 + "&code=" + params.get("code").toString();
         url = url.replace("[", "").replace("]", "");

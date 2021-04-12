@@ -32,12 +32,6 @@ public class GiftController {
         this.giftService = giftService;
     }
 
-    @GetMapping("/g")
-    public String g () {
-        System.out.println(1);
-        return "work";
-    }
-
     @PostMapping("/find/groups")
     public Set<Group> findGroups (@RequestBody String userUrl) throws InterruptedException {
         return giftService.findGroups(userUrl);

@@ -32,7 +32,7 @@
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
                 <input matInput *ngIf="users[0].email!==null" value="{{users[0].email}}">
-                <input matInput>
+                <input matInput *ngIf="users[0].email==null">
               </mat-form-field>
             </div>
 
@@ -48,7 +48,7 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-flat-button color="primary" class="button-save">Сохранить</button>
+          <button mat-flat-button color="primary" class="button-save" >Сохранить</button>
         </mat-card-actions>
       </mat-card>
     </div>
@@ -56,9 +56,24 @@
     <div class="wish">
       <mat-card>
         <mat-card-title>Wish-лист</mat-card-title>
-        <mat-card-content>Content Wish-лист</mat-card-content>
+        <mat-card-content class="wish-card-content">
+          <mat-grid-list cols="4" class="wish-grid">
+            <mat-grid-tile *ngFor="let wishProduct of wishProducts">
+              <mat-card class="wish-card">
+                <mat-card-title>
+                  <a [href]="wishProduct.catalogUrl" class="url"> {{wishProduct.name}} </a>
+                </mat-card-title>
+                <mat-card-content>{{wishProduct.description}}</mat-card-content>
+                <mat-card-footer>Цена: {{wishProduct.price}} р.</mat-card-footer>
+                <mat-card-actions>
+                  <button mat-flat-button color="primary" (click)="deleteWish(wishProduct)">Убрать</button>
+                </mat-card-actions>
+              </mat-card>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </mat-card-content>
         <mat-card-actions>
-          <button mat-flat-button color="primary" class="button-save">Редактировать</button>
+          <button mat-flat-button color="primary" class="button-save" (click)="addWish()">Добавить</button>
         </mat-card-actions>
       </mat-card>
     </div>
@@ -66,10 +81,26 @@
 
   <div class="selection">
     <mat-card>
-      <mat-card-title>Ранее подобранные подарки</mat-card-title>
-      <mat-card-content>Content selection gift</mat-card-content>
+      <mat-card-title>История подбора</mat-card-title>
+      <mat-card-content class="selection-card-content">
+        <mat-grid-list cols="5">
+          <mat-grid-tile *ngFor="let selectionsHistory of selectionsHistories">
+            <mat-card>
+              <mat-card-title>
+                <a [href]="selectionsHistory.url" class="url"> {{selectionsHistory.name}} </a>
+              </mat-card-title>
+              <mat-card-content class="selection-photo-card">
+                <img [src]="selectionsHistory.photo_100" alt="{{selectionsHistory.name}}" class="photo-user"/>
+              </mat-card-content>
+              <mat-card-actions class="selection-button-card">
+                <button mat-flat-button color="primary" (click)="openGiftDialog(selectionsHistory)" class="bt">Посмотреть подарки</button>
+              </mat-card-actions>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-card-content>
       <mat-card-actions>
-        <button mat-flat-button color="primary" class="button-save">Подобрать ещё</button>
+        <button mat-flat-button color="primary" class="button-save" routerLink="/selection">Подобрать ещё</button>
       </mat-card-actions>
     </mat-card>
   </div>

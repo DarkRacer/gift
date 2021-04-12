@@ -24,4 +24,10 @@ public interface ProductTransactionRepo extends JpaRepository<ProductTransaction
     @Query(value = "select pt.product_id, COUNT(pt.product_id) as count from gift.products_transaction pt " +
             "group by pt.product_id order by count desc", nativeQuery = true)
     List<Count> findCountProduct ();
+
+    @Query(value = "select pt.product_id from gift.products_transaction pt where pt.tid = :transactionId", nativeQuery = true)
+    List<Long> findProductTransactionsByTransaction(@Param("transactionId") Long transactionId);
+
+    @Query(value = "delete from gift.products_transaction pt where pt.tid = :tid and pt.product_id = :product_id", nativeQuery = true)
+    void delete (@Param("tid") Long tid, @Param("product_id") Long productId);
 }

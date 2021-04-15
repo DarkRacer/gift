@@ -50,7 +50,7 @@ public class Users {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+    @JoinTable(name = "user_role", schema = "gift", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
     private Set<Role> roles;
 
     public Users(Integer id, String firstName, String lastName, String provider, String picture, Integer providerUserId) {

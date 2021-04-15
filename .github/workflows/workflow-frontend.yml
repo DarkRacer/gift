@@ -23,17 +23,18 @@ jobs:
     - run: npm ci
     - run: npm run build
     - name: Login to Heroku Container registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:login
     - name: Build and push frontend
-        with:
-          context: ./frontend
-          path: ./frontend
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }} web
+      with:
+        context: ./frontend
+        file: ./frontend/Dockerfile
+        path: ./frontend
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:push -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }} web
     - name: Release frontend
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }} web
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }} web

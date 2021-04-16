@@ -14,3 +14,4 @@ RUN npm install -g @angular/cli
 
 COPY . /app
 
+CMD node server.js

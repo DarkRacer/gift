@@ -9,7 +9,6 @@ import {Jsonp} from "@angular/http";
   providedIn: 'root'
 })
 export class SelectionService {
-  service = 'http://localhost:8080';
 
   constructor(private readonly http: HttpClient, private readonly jsonp: Jsonp) {}
 
@@ -40,7 +39,7 @@ export class SelectionService {
   }
 
   selectSelf(products: ProductModel[]): Observable<any> {
-    return this.http.post(`${this.service}/gifts/self`, products);
+    return this.http.post(`api/gifts/self`, products);
   }
 
   loadWish(userId: number): Observable<any> {

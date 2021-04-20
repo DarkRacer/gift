@@ -66,7 +66,7 @@ public class ProductService {
 
         Users users = userRepository.findUsersByProviderUserId(giftCriteria.getUserId());
 
-        if(users.getId() != null) {
+        if(users != null) {
             List<Long> productId = productTransactionRepo.findProductTransactionsByTransaction(transactionRepo.findTransactionsWish(users.getId()).getId());
 
             for (Long id : productId) {

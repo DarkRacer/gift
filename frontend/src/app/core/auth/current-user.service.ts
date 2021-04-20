@@ -46,7 +46,8 @@ export class CurrentUserService {
 
    login(provider: string) {
 
-    return this.http.post(`api/oauth2/authorization/vk?redirect_uri=http://localhost:4200/user`,"" , { responseType: 'text' });
+    return this.http.post(`api/oauth2/authorization/vk?redirect_uri=https://search-gift-frontend.herokuapp.com/user`,
+      "" , { responseType: 'text' });
 
   }
 

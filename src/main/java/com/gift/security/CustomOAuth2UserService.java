@@ -1,6 +1,8 @@
 package com.gift.security;
 
 import com.gift.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -24,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     @Autowired
@@ -35,6 +38,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         try {
             return processOAuth2User(oAuth2UserRequest, oAuth2User);
         }  catch (Exception ex) {
+            log.error("Error InternalAuthenticationService", ex);
             throw new InternalAuthenticationServiceException(ex.getMessage(), ex.getCause());
         }
     }

@@ -65,16 +65,18 @@ public class GiftService {
             Data[] data = post.getData();
             Topic[] topics = data[0].getTopics();
 
-            List<String> topicsList = new ArrayList<>();
-            for (Topic topic : topics) {
-                topicsList.add(topic.getTopic());
-            }
-            group.setTopics(topicsList);
+            if (topics != null) {
+                List<String> topicsList = new ArrayList<>();
+                for (Topic topic : topics) {
+                    topicsList.add(topic.getTopic());
+                }
+                group.setTopics(topicsList);
 
-            if (group.getDescription().length() > 150) {
-                group.setDescription(group.getDescription().substring(0, 150) + "...");
+                if (group.getDescription().length() > 150) {
+                    group.setDescription(group.getDescription().substring(0, 150) + "...");
+                }
+                Thread.sleep(10);
             }
-            Thread.sleep(10);
         }
 
         return groups;

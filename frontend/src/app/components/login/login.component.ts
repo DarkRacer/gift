@@ -25,9 +25,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    logger.info("before");
+    console.log("before");
     if (this.cookie.check("Authorization") && this.cookie.check("user_id")) {
-      logger.info(this.cookie.get("user_id"));
+      console.log(this.cookie.get("user_id"));
       localStorage.setItem('auth_token', this.cookie.get("Authorization"))
       localStorage.setItem('user_id', this.cookie.get("user_id"));
       this.cookie.deleteAll();

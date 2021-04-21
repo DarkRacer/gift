@@ -6,6 +6,7 @@ import {map, switchMap} from "rxjs/operators";
 import {Jsonp} from "@angular/http";
 import {HttpClient} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
+import { logger } from 'codelyzer/util/logger';
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    logger.info("before");
     if (this.cookie.check("Authorization") && this.cookie.check("user_id")) {
+      logger.info(this.cookie.get("user_id"));
       localStorage.setItem('auth_token', this.cookie.get("Authorization"))
       localStorage.setItem('user_id', this.cookie.get("user_id"));
       this.cookie.deleteAll();

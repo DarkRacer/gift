@@ -60,9 +60,8 @@ public class ProductService {
     public List<Product> findProduct (GiftCriteria giftCriteria) {
         HashMap<Product, BigInteger> productsMap = new HashMap<>();
         HashMap<Product, BigInteger> allProductsMap = new HashMap<>();
-        List<Product> products = new ArrayList<>();
         List<Count> counts = productTransactionRepo.findCountProduct();
-        List<Product> resultProducts = new ArrayList<>(checkCounter(products));
+        List<Product> resultProducts = new ArrayList<>();
 
         Users users = userRepository.findUsersByProviderUserId(giftCriteria.getUserId());
 
@@ -93,10 +92,10 @@ public class ProductService {
         }
 
         productsMap.entrySet().stream().sorted(Map.Entry.<Product, BigInteger>comparingByValue().reversed())
-                .forEach(productBigIntegerEntry -> products.add(productBigIntegerEntry.getKey()));
+                .forEach(productBigIntegerEntry -> resultProducts.add(productBigIntegerEntry.getKey()));
 
         if (resultProducts.size() > 5) {
-            return new ArrayList<>(checkCounter(products).subList(0, 6));
+            return new ArrayList<>(checkCounter(resultProducts).subList(0, 6));
         }
 
         return resultProducts;

@@ -16,7 +16,7 @@ app.use(session({
   proxy: true,
   cookie: {
     secure: true,
-    maxAge: 360
+    maxAge: 360 * 1000
   }
 }))
 

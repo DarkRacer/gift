@@ -56,11 +56,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		token.setSecure(true);
 		token.setMaxAge(180);
 		token.setPath("/user");
+		token.setDomain("search-gift-frontend.herokuapp.com");
 		response.addCookie(token);
 
 		userId.setSecure(true);
 		userId.setMaxAge(180);
 		userId.setPath("/user");
+		userId.setDomain("search-gift-frontend.herokuapp.com");
 		response.addCookie(userId);
 
 		log.info("user_id {}", userId.getValue());

@@ -38,6 +38,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
+    "cors": "^2.8.5",
     "express-session": "^1.17.1",
     "husky": "^5.0.9",
     "jasmine-core": "~3.6.0",

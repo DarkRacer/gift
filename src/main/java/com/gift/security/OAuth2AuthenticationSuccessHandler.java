@@ -53,11 +53,22 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		Cookie token = new Cookie("Authorization", tokenProvider.createToken(authentication));
 		Cookie userId = new Cookie("user_id", String.valueOf(userPrincipal.getUser().getId()));
 
+		token.setSecure(true);
+		token.setHttpOnly(true);
+		token.setMaxAge(180);
+		token.setHttpOnly(true);
+		token.setDomain("*.herokuapp.com");
 		token.setPath("/user");
 		response.addCookie(token);
 
+		userId.setSecure(true);
+		userId.setHttpOnly(true);
+		userId.setMaxAge(180);
+		userId.setHttpOnly(true);
+		userId.setDomain("*.herokuapp.com");
 		userId.setPath("/user");
 		response.addCookie(userId);
+
 		log.info("user_id {}", userId.getValue());
 		getRedirectStrategy().sendRedirect(request, response, targetUrl);
 

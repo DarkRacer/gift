@@ -54,13 +54,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		Cookie userId = new Cookie("user_id", String.valueOf(userPrincipal.getUser().getId()));
 
 		token.setSecure(true);
-		token.setHttpOnly(true);
 		token.setMaxAge(180);
 		token.setPath("/user");
 		response.addCookie(token);
 
 		userId.setSecure(true);
-		userId.setHttpOnly(true);
 		userId.setMaxAge(180);
 		userId.setPath("/user");
 		response.addCookie(userId);

@@ -1,7 +1,6 @@
-import { APP_INITIALIZER, Injectable, Provider } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subscription, throwError } from 'rxjs';
-import {HttpBackend, HttpClient, HttpClientJsonpModule} from '@angular/common/http';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import {  Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import {HttpBackend, HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Role } from './role.model';
 import { Anonymous, CurrentUser, LoggedUser } from './current-user.model';
@@ -59,5 +58,10 @@ export class CurrentUserService {
 
   setUser(user: CurrentUser): void {
     this.user$.next(user);
+  }
+
+  getAuth (code : string, sid: string): Observable<any> {
+    const body = { code, sid };
+    return this.http.post(`api/auth/code`, body);
   }
 }

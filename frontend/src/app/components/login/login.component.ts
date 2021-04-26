@@ -14,6 +14,8 @@ import { AuthResponseModel } from '../../model/auth-response.model';
 export class LoginComponent implements OnInit {
   content: string | undefined;
   authResponse: AuthResponseModel[] = [];
+  sid: string | undefined;
+  url: string | undefined;
 
   constructor(
     private readonly currentUserService: CurrentUserService,
@@ -26,11 +28,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+    this.sid = this.cookie.get('connect.sid');
+    this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
+      "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
 
     if (code) {
-      this.currentUserService.getAuth(code, this.cookie.get('connect.sid')).subscribe(authResponse => {
+      this.currentUserService.getAuth(code, this.sid).subscribe(authResponse => {
         this.authResponse = authResponse;
       });
     }
@@ -55,12 +59,5 @@ export class LoginComponent implements OnInit {
           console.error('Error', error);
         }
       );
-  }
-
-  test() {
-    this.http.get(`http://localhost:8080/oauth2/authorization/vk?redirect_uri=http://localhost:8000/user`, {
-        withCredentials: true
-      }
-    ).subscribe();
   }
 }

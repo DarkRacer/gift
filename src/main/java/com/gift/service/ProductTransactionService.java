@@ -61,14 +61,21 @@ public class ProductTransactionService {
     }
 
     public Set<Product> loadWish(Long userId) {
-        List<Long> productId = productTransactionRepo.findProductTransactionsByTransaction(transactionRepo.findTransactionsWish(userId).getId());
-        Set<Product> products = new HashSet<>();
+        List<Transaction> transactions = transactionRepo.findTransactionsWish(userId);
+        if (transactions != null) {
+            List<Long> productId = new ArrayList<>();
+            for (Transaction transaction : transactions) {
+                productId.addAll(productTransactionRepo.findProductTransactionsByTransaction(transaction.getId()));
+            }
+            Set<Product> products = new HashSet<>();
 
-        for (Long id : productId) {
-            products.add(productRepo.findProductById(id));
+            for (Long id : productId) {
+                products.add(productRepo.findProductById(id));
+            }
+
+            return products;
         }
-
-        return products;
+        return null;
     }
 
     public List<SelectionsHistory> getHistory(Long userId) {
@@ -95,13 +102,28 @@ public class ProductTransactionService {
     }
 
     public void deleteWish(InfoTransaction transactionWish) {
-        productTransactionRepo.delete(transactionRepo.findTransactionsWish(transactionWish.getId()).getId(),
-                transactionWish.getProductId());
+        List<Transaction> transactions = transactionRepo.findTransactionsWish(transactionWish.getId());
+        for (Transaction transaction : transactions) {
+            productTransactionRepo.delete(transaction.getId(), transactionWish.getProductId());
+        }
     }
 
     @Transactional
-    public void saveWish(InfoTransaction transactionWish) {
-        productTransactionRepo.save(transactionRepo.findTransactionsWish(transactionWish.getId()).getId(), productRepo.findProductById(transactionWish.getProductId()).getId());
+    public void saveWish(InfoTransaction infoTransactionWish) {
+        if (transactionRepo.findTransactionsWish(infoTransactionWish.getId()) == null) {
+            Transaction transactionWish = new Transaction();
+            transactionWish.setRecipient("https://vk.com/id" +
+                    userRepository.findUsersById(infoTransactionWish.getId()).getProviderUserId());
+            transactionWish.setSender(userRepository.findUsersById(infoTransactionWish.getId()));
+            transactionWish.setWish(true);
+            transactionRepo.save(transactionWish);
+
+        }
+        List<Transaction> transactions = transactionRepo.findTransactionsWish(infoTransactionWish.getId());
+        for (Transaction transaction : transactions) {
+            productTransactionRepo.save(transaction.getId(),
+                    productRepo.findProductById(infoTransactionWish.getProductId()).getId());
+        }
     }
 
     public void deleteSelectionsHistory(InfoTransaction transaction) {

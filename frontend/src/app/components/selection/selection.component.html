@@ -1,5 +1,5 @@
 <div>
-  <mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-horizontal-stepper [linear]="true" #stepper class="container-selection">
     <mat-step [stepControl]="userUrlGroup">
       <form [formGroup]="userUrlGroup">
         <ng-template matStepLabel>Ссылка на пользователя</ng-template>
@@ -19,7 +19,7 @@
             color="primary"
             matStepperNext
             (click)="select()"
-            class="select"
+            class="btn btn-small btn-select"
           >
             Далее
           </button>
@@ -32,12 +32,12 @@
         <form>
           <img
             [src]="users[0].photo_100"
-            alt="{{ users[0].first_name }} {{ users[0].last_name }}"
+            alt="{{ users[0].first_name }} {{ users[0].last_name }}" class="photo-selection"
           />
         </form>
         <form>
           <a [href]="userUrlGroup.controls.userUrlCtrl.value" class="urlUser"
-            >{{ users[0].first_name }} {{ users[0].last_name }}</a
+          >{{ users[0].first_name }} {{ users[0].last_name }}</a
           >
         </form>
       </form>
@@ -77,9 +77,9 @@
           />
           <mat-card-content class="card-group-content">{{
             selectionElement.description
-          }}</mat-card-content>
-          <mat-card-actions>
-            <button mat-raised-button color="primary" class="button">
+            }}</mat-card-content>
+          <mat-card-actions class="btn-block">
+            <button mat-raised-button color="primary" class="button btn btn-small">
               <a [href]="generateUrlGroup(selectionElement.screen_name)" class="url-button">
                 Перейти в группу
               </a>
@@ -88,12 +88,12 @@
         </mat-card>
       </div>
 
-      <div>
+      <div class="btn-nav">
         <button
           mat-raised-button
           color="primary"
           matStepperPrevious
-          class="back"
+          class="back btn btn-small"
           *ngIf="groups.length > 0"
         >
           Назад
@@ -102,7 +102,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          class="next"
+          class="next btn btn-small"
           *ngIf="groups.length > 0"
           (click)="findCategories()"
         >
@@ -117,37 +117,37 @@
         <form>
           <img
             [src]="users[0].photo_100"
-            alt="{{ users[0].first_name }} {{ users[0].last_name }}"
+            alt="{{ users[0].first_name }} {{ users[0].last_name }}" class="photo-selection"
           />
         </form>
         <form>
           <a [href]="userUrlGroup.controls.userUrlCtrl.value" class="urlUser"
-            >{{ users[0].first_name }} {{ users[0].last_name }}</a
+          >{{ users[0].first_name }} {{ users[0].last_name }}</a
           >
         </form>
       </form>
 
-      <table mat-table [dataSource]="categories" class="table" *ngIf="categories.length > 0">
+      <table mat-table [dataSource]="categories" class="table table-selection" *ngIf="categories.length > 0">
         <ng-container matColumnDef="name">
-          <th *matHeaderCellDef mat-header-cell>Выбранная категория</th>
-          <td *matCellDef="let row" mat-cell>{{ _category(row).name }}</td>
+          <th *matHeaderCellDef mat-header-cell class="cell-selection">Выбранная категория</th>
+          <td *matCellDef="let row" mat-cell class="cell-selection">{{ _category(row).name }}</td>
         </ng-container>
 
         <ng-container matColumnDef="topics">
-          <th *matHeaderCellDef mat-header-cell>Побудившие тематики</th>
-          <td *matCellDef="let row" mat-cell>{{ _category(row).topics }}</td>
+          <th *matHeaderCellDef mat-header-cell class="cell-selection">Побудившие тематики</th>
+          <td *matCellDef="let row" mat-cell class="cell-selection">{{ _category(row).topics }}</td>
         </ng-container>
 
         <tr *matHeaderRowDef="columnsCategory" mat-header-row></tr>
         <tr *matRowDef="let row; columns: columnsCategory" mat-row></tr>
       </table>
 
-      <div>
+      <div class="btn-nav">
         <button
           mat-raised-button
           color="primary"
           matStepperPrevious
-          class="back"
+          class="back btn btn-small"
           *ngIf="categories.length > 0"
         >
           Назад
@@ -156,7 +156,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          class="next"
+          class="next btn btn-small"
           *ngIf="categories.length > 0"
           (click)="findProducts()"
         >
@@ -175,20 +175,20 @@
         <form>
           <img
             [src]="users[0].photo_100"
-            alt="{{ users[0].first_name }} {{ users[0].last_name }}"
+            alt="{{ users[0].first_name }} {{ users[0].last_name }}" class="photo-selection"
           />
         </form>
         <form>
           <a [href]="userUrlGroup.controls.userUrlCtrl.value" class="urlUser"
-            >{{ users[0].first_name }} {{ users[0].last_name }}</a
+          >{{ users[0].first_name }} {{ users[0].last_name }}</a
           >
         </form>
       </form>
 
-      <table mat-table [dataSource]="datasourceProduct" class="table" *ngIf="products.length > 0">
-        <ng-container matColumnDef="id">
-          <th *matHeaderCellDef mat-header-cell>Star</th>
-          <td *matCellDef="let i = index" mat-cell>
+      <table mat-table [dataSource]="datasourceProduct" class="table table-gift-selection" *ngIf="products.length > 0">
+        <ng-container matColumnDef="id" class="table-gift-selection-blocks">
+          <th *matHeaderCellDef mat-header-cell class="cell-selection">Рейтинг</th>
+          <td *matCellDef="let i = index" mat-cell class="cell-selection">
             <div *ngIf="i < initialSize">
               <mat-icon *ngFor="let k of [].constructor(5 - i)">star_rate</mat-icon>
             </div>
@@ -199,32 +199,32 @@
         </ng-container>
 
         <ng-container matColumnDef="name">
-          <th *matHeaderCellDef mat-header-cell>Название</th>
-          <td *matCellDef="let row" mat-cell>{{ _product(row).name }}</td>
+          <th *matHeaderCellDef mat-header-cell class="cell-selection">Название</th>
+          <td *matCellDef="let row" mat-cell class="cell-selection">{{ _product(row).name }}</td>
         </ng-container>
 
         <ng-container matColumnDef="description">
-          <th *matHeaderCellDef mat-header-cell>Описание</th>
-          <td *matCellDef="let row" mat-cell>{{ _product(row).description }}</td>
+          <th *matHeaderCellDef mat-header-cell class="cell-selection">Описание</th>
+          <td *matCellDef="let row" mat-cell class="cell-selection">{{ _product(row).description }}</td>
         </ng-container>
 
         <ng-container matColumnDef="price">
-          <th *matHeaderCellDef mat-header-cell>Цена</th>
-          <td *matCellDef="let row" mat-cell>{{ _product(row).price }}</td>
+          <th *matHeaderCellDef mat-header-cell class="cell-selection">Цена</th>
+          <td *matCellDef="let row" mat-cell class="cell-selection">{{ _product(row).price }}</td>
         </ng-container>
 
         <ng-container matColumnDef="catalogUrl">
-          <th *matHeaderCellDef mat-header-cell>Ссылка на каталог</th>
-          <td *matCellDef="let row" mat-cell>
-            <button mat-raised-button color="primary">
-              <a [href]="_product(row).catalogUrl" class="url-button">В магазин</a>
+          <th *matHeaderCellDef mat-header-cell class="cell-selection">Ссылка на каталог</th>
+          <td *matCellDef="let row" mat-cell class="cell-selection">
+            <button mat-raised-button color="primary" class="btn btn-small">
+              <a [href]="_product(row).catalogUrl">В магазин</a>
             </button>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="function">
-          <th mat-header-cell *matHeaderCellDef>Выбрать</th>
-          <td mat-cell *matCellDef="let row">
+          <th mat-header-cell *matHeaderCellDef class="cell-selection">Выбрать</th>
+          <td mat-cell *matCellDef="let row" class="cell-selection">
             <mat-checkbox
               (click)="
                 $event.stopPropagation(); selectProduct(_product(row), selection.isSelected(row))
@@ -241,12 +241,12 @@
         <tr *matRowDef="let row; columns: columns" mat-row></tr>
       </table>
 
-      <div>
+      <div class="btn-nav btn-nav-selection-components">
         <button
           mat-raised-button
           color="primary"
           matStepperPrevious
-          class="back"
+          class="btn btn-small"
           *ngIf="products.length > 0"
         >
           Назад
@@ -254,7 +254,7 @@
         <button
           mat-raised-button
           color="primary"
-          class="self"
+          class="btn btn-small"
           *ngIf="products.length > 0"
           (click)="selectSelf()"
         >
@@ -264,7 +264,7 @@
           mat-raised-button
           color="primary"
           matStepperNext
-          class="next-last"
+          class="btn btn-small"
           *ngIf="products.length > 0"
           (click)="save()"
         >
@@ -277,12 +277,12 @@
     <mat-step>
       <ng-template matStepLabel>Конец</ng-template>
       <form class="end">
-        <p>Подарки подобраны и сохранены у тебя в профиле</p>
-        <div>
-          <button mat-raised-button color="primary">
-            <a href="selection" class="url-button">Заново</a>
+        <div class="gift-selection-text">Подарки подобраны и сохранены у тебя в профиле</div>
+        <div class="btn-nav">
+          <button mat-raised-button color="primary"  class="btn btn-small">
+            <a href="selection">Заново</a>
           </button>
-          <button mat-raised-button color="primary" class="button-home" routerLink="/user">В профиль</button>
+          <button mat-raised-button color="primary" class="btn btn-small" routerLink="/user">В профиль</button>
         </div>
       </form>
     </mat-step>

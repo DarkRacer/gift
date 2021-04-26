@@ -1,3 +1,7 @@
+.container-selection {
+  border-radius: 4px;
+}
+
 .select {
   display: flex;
   flex-direction: column;
@@ -14,28 +18,23 @@
   align-items: center;
   justify-content: center;
 }
-.table {
+
+.photo-selection {
+  width: 100px;
+  height: 100px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  border-radius: 80px;
+  box-shadow: 0 0 0 2px #3f51b5;
+  object-fit: cover;
+}
+.btn-nav {
   width: 100%;
-}
-.button {
-  left: 40%;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
 }
-.back {
-  flex-direction: column;
-  align-items: center;
-  display: inline-block;
-  margin-right: 5px;
-}
-.next {
-  left: 90%;
-  display: inline-block;
-  margin-right: 5px;
-  flex-direction: column;
-  align-items: center;
-}
+
 .spinner {
   position: absolute;
   left: 50%;
@@ -46,6 +45,7 @@
 }
 .user {
   width: 100%;
+  margin-bottom: 20px;
   font-size: 22px;
   text-align: center;
   align-items: center;
@@ -53,32 +53,18 @@
 }
 .info {
   display: flex;
-  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-bottom: 30px;
 }
-.groups {
-  width: 50%;
-}
+
 .card-group {
-  width: 47%;
-  top: 40%;
-}
-.card-group-photo {
-  width: 100px;
-  height: 100px;
-  top: 1%;
-  right: 1%;
+  width: 50%;
+  height: 500px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-}
-.card-group-content {
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-}
-.url-button {
-  color: white;
-  text-decoration: none;
+  justify-content: space-between;
+  align-items: center;
 }
 .button-home {
   left: 2%;
@@ -108,4 +94,53 @@
   margin-right: 5px;
   flex-direction: column;
   align-items: center;
+}
+
+.cell-selection {
+  width: 300px;
+  text-align: center;
+}
+
+.table-selection {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+table-gift-selection {
+  min-width: 700px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.table-gift-selection-blocks {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.btn-nav-selection-components {
+  margin-top: 30px;
+}
+
+
+gift-selection-text {
+  width: 100%;
+  height: 300px;
+  margin-bottom: 20px;
+  text-align: center;
+
+}
+
+gift-selection-text::before {
+  content: '';
+  height: 100%;
+  display: inline-block;
+  vertical-align: middle;
 }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface TransactionRepo extends JpaRepository<Transaction, Long> {
     @Query(value = "select t.* from gift.transactions t where t.sender_id = :userId and t.is_wish = true", nativeQuery = true)
-    Transaction findTransactionsWish(@Param("userId") Long userId);
+    List<Transaction> findTransactionsWish(@Param("userId") Long userId);
 
     @Query(value = "select t.* from gift.transactions t where t.sender_id = :userId and t.is_wish = false", nativeQuery = true)
     List<Transaction> findTransactionsBySender(@Param("userId") Long userId);

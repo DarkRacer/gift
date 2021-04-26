@@ -1,11 +1,26 @@
-.wish-grid {
-  width: 100%;
-  height: 100%;
+.gift-card {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.wish-card-content {
-  width: 100%;
-  height: 100%;
+
+.gift-card-title {
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: 500;
 }
-.button-save {
-  margin-left: 38%;
+
+.gift-card-price {
+  font-weight: 500;
+}
+
+.btn-block {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-add {
+  margin-bottom: 16px;
 }

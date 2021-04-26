@@ -1,17 +1,22 @@
 <div class="content">
   <div class="user-content">
-    <img
-      [src]="users[0].picture"
-      alt="{{ users[0].firstName }} {{ users[0].lastName }}"
-      class="photo"
-      *ngIf="users[0].picture"
-    />
-    <mat-icon class="icon-user" *ngIf="!users[0].picture">account_circle</mat-icon>
-    <div>
-      <mat-card class="info">
-        <mat-card-title>Личная информация</mat-card-title>
-        <mat-card-content class="info-content">
-          <div class="info-1">
+    <mat-card class="user-profile">
+      <mat-card-title class="heading">
+        Личная информация
+      </mat-card-title>
+      <mat-card-content>
+        <div class="user-profile-personal">
+          <ng-container *ngIf="users[0].picture">
+            <img
+              [src]="users[0].picture"
+              alt="{{ users[0].firstName }} {{ users[0].lastName }}"
+              class="photo"
+            />
+          </ng-container>
+          <ng-container  *ngIf="!users[0].picture">
+            <mat-icon class="user-icon">account_circle</mat-icon>
+          </ng-container>
+          <div class="user-profile-form">
             <div>
               <mat-form-field appearance="fill">
                 <mat-label>Имя</mat-label>
@@ -19,15 +24,13 @@
               </mat-form-field>
             </div>
 
-            <div>
+            <div class="user-form">
               <mat-form-field appearance="fill">
                 <mat-label>Фамилия</mat-label>
                 <input matInput value="{{users[0].lastName}}">
               </mat-form-field>
             </div>
-          </div>
 
-          <div class="info-2">
             <div>
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
@@ -35,68 +38,77 @@
                 <input matInput *ngIf="users[0].email==null">
               </mat-form-field>
             </div>
+          </div> <!--user-profile-personal-->
+        </div> <!--user-profile-form-->
+        <div *ngIf="users[0].provider=='vk'" class="user-profile-sm">
+          <label class="user-profile-label">Вход выполнен с помощью</label>
+          <img alt="Vk" src="/assets/img/vkontakte.png" class="user-profile-icon-vk">
+        </div>
 
-            <div *ngIf="users[0].provider=='vk'">
-              <label>Вход выполнен с помощью</label>
-              <img alt="Vk" src="/assets/img/vkontakte.png" class="vk">
-            </div>
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-flat-button color="primary" class="button-save" >Сохранить</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+        <div *ngIf="users[0].provider=='google'" class="user-profile-sm">
+          <label>Вход выполнен с помощью</label>
+          <img alt="Google" src="/assets/img/google.png" class="user-profile-icon-google">
+        </div>
 
-    <div class="wish">
-      <mat-card>
-        <mat-card-title>Wish-лист</mat-card-title>
-        <mat-card-content class="wish-card-content">
-          <mat-grid-list cols="4" class="wish-grid">
-            <mat-grid-tile *ngFor="let wishProduct of wishProducts">
-              <mat-card class="wish-card">
-                <mat-card-title>
-                  <a [href]="wishProduct.catalogUrl" class="url"> {{wishProduct.name}} </a>
-                </mat-card-title>
-                <mat-card-content>{{wishProduct.description}}</mat-card-content>
-                <mat-card-footer>Цена: {{wishProduct.price}} р.</mat-card-footer>
-                <mat-card-actions>
-                  <button mat-flat-button color="primary" (click)="deleteWish(wishProduct)">Убрать</button>
-                </mat-card-actions>
-              </mat-card>
-            </mat-grid-tile>
-          </mat-grid-list>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-flat-button color="primary" class="button-save" (click)="addWish()">Добавить</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+      </mat-card-content>
+      <mat-card-actions class="btn-actions">
+        <button mat-flat-button color="primary" class="btn btn-small btn-save" >Сохранить</button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 
-  <div class="selection">
-    <mat-card>
-      <mat-card-title>История подбора</mat-card-title>
-      <mat-card-content class="selection-card-content">
-        <mat-grid-list cols="5">
-          <mat-grid-tile *ngFor="let selectionsHistory of selectionsHistories">
-            <mat-card>
+  <div>
+    <mat-card class="wish">
+      <mat-card-title class="heading">Wish-лист</mat-card-title>
+      <mat-card-content class="wish-card-content">
+        <mat-grid-list cols="4" class="wish-grid" *ngIf="wishProducts[0]">
+          <mat-grid-tile *ngFor="let wishProduct of wishProducts">
+            <mat-card class="wish-card">
               <mat-card-title>
-                <a [href]="selectionsHistory.url" class="url"> {{selectionsHistory.name}} </a>
+                <a [href]="wishProduct.catalogUrl" class="url"> {{wishProduct.name}} </a>
               </mat-card-title>
-              <mat-card-content class="selection-photo-card">
-                <img [src]="selectionsHistory.photo_100" alt="{{selectionsHistory.name}}" class="photo-user"/>
-              </mat-card-content>
-              <mat-card-actions class="selection-button-card">
-                <button mat-flat-button color="primary" (click)="openGiftDialog(selectionsHistory)" class="bt">Посмотреть подарки</button>
+              <mat-card-content>{{wishProduct.description}}</mat-card-content>
+              <mat-card-footer>Цена: {{wishProduct.price}} р.</mat-card-footer>
+              <mat-card-actions>
+                <button mat-flat-button color="primary" (click)="deleteWish(wishProduct)">Убрать</button>
               </mat-card-actions>
             </mat-card>
           </mat-grid-tile>
         </mat-grid-list>
+        <div *ngIf="!wishProducts[0]" class="wish-text">
+          Для наполнения виш-листа подберите подарок.
+        </div>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-flat-button color="primary" class="button-save" routerLink="/selection">Подобрать ещё</button>
+      <mat-card-actions class="btn-actions">
+        <button mat-flat-button color="primary" class="btn btn-small" (click)="addWish()">Добавить</button>
       </mat-card-actions>
     </mat-card>
   </div>
 </div>
+
+<div>
+  <mat-card class="selection">
+    <mat-card-title class="heading">История подбора</mat-card-title>
+    <mat-card-content class="selection-card-content">
+      <mat-grid-list cols="5">
+        <mat-grid-tile *ngFor="let selectionsHistory of selectionsHistories">
+          <mat-card class="selection-card">
+            <mat-card-title class="selection-username">
+              <a [href]="selectionsHistory.url" class="url"> {{selectionsHistory.name}} </a>
+            </mat-card-title>
+            <mat-card-content class="selection-photo-card">
+              <img [src]="selectionsHistory.photo_100" alt="{{selectionsHistory.name}}" class="selection-userpic"/>
+            </mat-card-content>
+            <mat-card-actions class="selection-button-card">
+              <button mat-flat-button color="primary" (click)="openGiftDialog(selectionsHistory)" class="btn btn-small">Посмотреть подарки</button>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-card-content>
+    <mat-card-actions class="btn-block">
+      <button mat-flat-button color="primary" routerLink="/selection" class="btn btn-small selection-btn">Подобрать ещё</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

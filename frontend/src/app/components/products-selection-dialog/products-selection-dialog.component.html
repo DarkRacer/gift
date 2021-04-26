@@ -1,22 +1,23 @@
 <mat-card>
-  <mat-card-title>Подарки</mat-card-title>
+  <mat-card-title class="heading">Подарки</mat-card-title>
   <mat-card-content class="wish-card-content">
     <mat-grid-list cols="3" class="wish-grid">
       <mat-grid-tile *ngFor="let product of data.gifts">
-        <mat-card>
-          <mat-card-title>
+        <mat-card class="gift-card">
+          <mat-card-title class="gift-card-title">
             <a [href]="product.name" class="url"> {{product.name}} </a>
           </mat-card-title>
           <mat-card-content>{{product.description}}</mat-card-content>
-          <mat-card-footer>Цена: {{product.price}} р.</mat-card-footer>
+          <mat-card-footer class="gift-card-price">Цена: {{product.price}} р.</mat-card-footer>
           <mat-card-actions>
-            <button mat-flat-button color="primary" (click)="deleteProduct(product)">Убрать</button>
+            <button mat-flat-button color="primary" (click)="deleteProduct(product)" class="btn btn-small">Убрать</button>
           </mat-card-actions>
         </mat-card>
       </mat-grid-tile>
     </mat-grid-list>
   </mat-card-content>
-  <mat-card-actions>
-    <button mat-flat-button color="primary" class="button-save" (click)="addProduct()">Добавить</button>
+  <mat-card-actions class="btn-block">
+    <button mat-flat-button color="primary" (click)="addProduct()" class="btn btn-small btn-add">Добавить</button>
   </mat-card-actions>
 </mat-card>
+

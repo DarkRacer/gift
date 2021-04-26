@@ -2,6 +2,7 @@ package com.gift.service;
 
 import com.gift.model.entities.Category;
 import com.gift.model.entities.Product;
+import com.gift.model.entities.Transaction;
 import com.gift.model.entities.Users;
 import com.gift.model.projections.Count;
 import com.gift.model.projections.GiftCriteria;
@@ -66,10 +67,17 @@ public class ProductService {
         Users users = userRepository.findUsersByProviderUserId(giftCriteria.getUserId());
 
         if(users != null) {
-            List<Long> productId = productTransactionRepo.findProductTransactionsByTransaction(transactionRepo.findTransactionsWish(users.getId()).getId());
+            List<Transaction> transactions = transactionRepo.findTransactionsWish(users.getId());
+            if (transactionRepo.findTransactionsWish(users.getId()) != null) {
+                List<Long> productId = new ArrayList<>();
 
-            for (Long id : productId) {
-                resultProducts.add(productRepo.findProductById(id));
+                for (Transaction transaction : transactions) {
+                    productId.addAll(productTransactionRepo.findProductTransactionsByTransaction(transaction.getId()));
+                }
+
+                for (Long id : productId) {
+                    resultProducts.add(productRepo.findProductById(id));
+                }
             }
         }
 

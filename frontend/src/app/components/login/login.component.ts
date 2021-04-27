@@ -28,23 +28,10 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // @ts-ignore
-    this.http.get('https://search-gift-frontend.herokuapp.com/').subscribe((req, res) => {
-      console.log("req.headers ", req.headers.cookie['connect.sid']);
-      console.log("req ", req.cookie['connect.sid']);
-      console.log("req.body.sid", req.body.sid);
-
-      this.sid = req.headers.cookie['connect.sid'];
-      console.log("getAll ", this.cookie.getAll());
-      res.sendStatus(200);
-    });
-
-    this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
-      "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
-
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
 
-    if (code) {
+    console.log("code " + code);
+    if (code != null) {
       this.currentUserService.getAuth(code, this.sid).subscribe(authResponse => {
         this.authResponse = authResponse;
       });
@@ -59,6 +46,16 @@ export class LoginComponent implements OnInit {
       this.router.navigate(["/user"]).then(() => {
         window.location.reload();
       });
+    } else {
+      // @ts-ignore
+      this.http.get('api/auth/sid').subscribe(sid => {
+        console.log(sid);
+
+        this.sid = sid as string;
+      });
+
+      this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
+        "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
     }
   }
 

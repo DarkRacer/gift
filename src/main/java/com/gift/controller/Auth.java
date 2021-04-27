@@ -16,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/auth")
@@ -36,5 +41,16 @@ public class Auth {
     @PostMapping("/code")
     public AuthResponse getAuth (@RequestBody AuthRequest authRequest) {
         return authenticationService.getAuth(authRequest);
+    }
+
+    @GetMapping("/sid")
+    public String getSid (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for (Cookie cookie : cookies) {
+            if (Objects.equals(cookie.getName(), "connect.sid")){
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }

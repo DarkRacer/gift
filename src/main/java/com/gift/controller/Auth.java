@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -46,11 +47,13 @@ public class Auth {
     }
 
     @PostMapping("/sid")
-    public String getSid (HttpServletRequest httpServletRequest) {
+    public Map<String, String> getSid (HttpServletRequest httpServletRequest) {
+        Map<String, String> map = new HashMap<>();
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (Objects.equals(cookie.getName(), "connect.sid")){
-                return cookie.getValue();
+                map.put("sid", cookie.getValue());
+                return map;
             }
         }
         return null;

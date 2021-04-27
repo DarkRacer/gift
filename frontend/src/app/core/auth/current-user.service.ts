@@ -60,7 +60,7 @@ export class CurrentUserService {
     this.user$.next(user);
   }
 
-  getAuth (code : string, sid: string): Observable<any> {
+  getAuth(code: string, sid: string | undefined): Observable<any> {
     const body = { code, sid };
     return this.http.post(`api/auth/code`, body);
   }

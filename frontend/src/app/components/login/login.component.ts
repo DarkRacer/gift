@@ -28,7 +28,13 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.sid = this.cookie.get('connect.sid');
+    // @ts-ignore
+    this.http.get('/').subscribe((req, res) => {
+      this.sid = req.cookies['connect.sid'];
+
+      res.sendStatus(200);
+    });
+
     this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
       "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
@@ -37,15 +43,16 @@ export class LoginComponent implements OnInit {
       this.currentUserService.getAuth(code, this.sid).subscribe(authResponse => {
         this.authResponse = authResponse;
       });
+
+
+      localStorage.setItem('auth_token', this.authResponse[0].token)
+      localStorage.setItem('user_id', String(this.authResponse[0].userId));
+
+      this.refreshUserService.refreshCurrentUser().subscribe();
+      this.router.navigate(["/user"]).then(() => {
+        window.location.reload();
+      });
     }
-
-    localStorage.setItem('auth_token', this.authResponse[0].token)
-    localStorage.setItem('user_id', String(this.authResponse[0].userId));
-
-    this.refreshUserService.refreshCurrentUser().subscribe();
-    this.router.navigate(["/user"]).then(() => {
-      window.location.reload();
-    });
   }
 
   login(provider: string): void {

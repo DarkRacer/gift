@@ -4,7 +4,6 @@ import com.gift.model.entities.AuthenticationEntity;
 import com.gift.model.projections.LocalUser;
 import com.gift.repository.AuthenticationRepo;
 import com.gift.util.CookieUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -22,7 +21,6 @@ import static com.gift.security.HttpCookieOAuth2AuthorizationRequestRepository.R
 import static com.gift.security.HttpCookieOAuth2AuthorizationRequestRepository.SID_PARAM_COOKIE_NAME;
 
 @Component
-@Slf4j
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	private final AuthenticationRepo authenticationRepo;
 	private TokenProvider tokenProvider;

@@ -4,7 +4,7 @@
       Подобрать подарок
     </button>
     <img alt="Логотип" src="assets/img/logo.png" class="logo">
-    <button mat-button class="btn btn-login" (click)="handleLoginClick()" *ngIf="!isLoggedIn">
+    <button mat-button class="btn btn-login" routerLink="/login" *ngIf="!isLoggedIn">
       Войти
     </button>
 

@@ -38,10 +38,4 @@ export class AppComponent implements OnInit {
     localStorage.clear();
     window.location.reload();
   }
-
-  handleLoginClick() {
-    this.router.navigate(["/login"]).then(() => {
-      window.location.reload();
-    });
-  }
 }

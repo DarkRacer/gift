@@ -37,10 +37,11 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+		String code = String.valueOf(UUID.randomUUID());
+		response.addHeader("code", code);
 		String targetUrl = determineTargetUrl(request, response, authentication);
 		Optional<String> sid = CookieUtils.getCookie(request, SID_PARAM_COOKIE_NAME).map(Cookie::getValue);
 		String connectSid = sid.orElse(null);
-		String uuid = String.valueOf(UUID.randomUUID());
 
 		if (response.isCommitted()) {
 			logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -57,7 +58,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			authenticationEntity.setUserId(userPrincipal.getUser().getId());
 		}
 
-		authenticationEntity.setCode(uuid);
+		authenticationEntity.setCode(code);
 		authenticationEntity.setSid(connectSid);
 		authenticationEntity.setToken(tokenProvider.createToken(authentication));
 
@@ -70,12 +71,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	@Override
 	protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		Optional<String> redirectUri = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME).map(Cookie::getValue);
-		Optional<String> sid = CookieUtils.getCookie(request, SID_PARAM_COOKIE_NAME).map(Cookie::getValue);
 
-		String connectSid = sid.orElse(null);
 		String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
 
-		return UriComponentsBuilder.fromUriString(targetUrl).queryParam("sid", connectSid).build().toUriString();
+		return UriComponentsBuilder.fromUriString(targetUrl).queryParam("code", response.getHeader("code")).build().toUriString();
 	}
 
 	protected void clearAuthenticationAttributes(HttpServletRequest request, HttpServletResponse response) {

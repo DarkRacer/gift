@@ -29,14 +29,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     // @ts-ignore
-    this.http.get('/').subscribe((req, res) => {
+    this.http.get('https://search-gift-frontend.herokuapp.com/').subscribe((req, res) => {
       this.sid = req.cookies['connect.sid'];
-
       res.sendStatus(200);
+      this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
+        "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
     });
 
-    this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
-      "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
 
     if (code) {

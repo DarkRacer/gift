@@ -30,7 +30,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     // @ts-ignore
     this.http.get('https://search-gift-frontend.herokuapp.com/').subscribe((req, res) => {
-      this.sid = req.cookies['connect.sid'];
+      console.log("req.headers ", req.headers.cookie['connect.sid']);
+      console.log("req ", req.cookie['connect.sid']);
+      console.log("req.body.sid", req.body.sid);
+
+      this.sid = req.headers.cookie['connect.sid'];
+      console.log("getAll ", this.cookie.getAll());
       res.sendStatus(200);
     });
 
@@ -44,7 +49,9 @@ export class LoginComponent implements OnInit {
         this.authResponse = authResponse;
       });
 
+      console.log(this.authResponse[0].userId);
 
+      localStorage.setItem('test', "test");
       localStorage.setItem('auth_token', this.authResponse[0].token)
       localStorage.setItem('user_id', String(this.authResponse[0].userId));
 

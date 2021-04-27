@@ -64,4 +64,8 @@ export class CurrentUserService {
     const body = { code, sid };
     return this.http.post(`api/auth/code`, body);
   }
+
+  getSid(): Observable<Object> {
+    return this.http.get(`api/auth/sid`);
+  }
 }

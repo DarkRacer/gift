@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, Injectable, OnInit} from '@angular/core';
 import { SelectionService } from '../../services/selection.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {CurrentUserService} from "../../core/auth/current-user.service";
 import {ExistingUser} from "../../model/existing-user.model";
 import {ProductModel} from "../../model/product.model";
@@ -8,6 +8,8 @@ import {SelectionsHistoryModel} from "../../model/selections-history.model";
 import {SelfDialogComponent} from "../self-dialog/self-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ProductsSelectionDialogComponent} from "../products-selection-dialog/products-selection-dialog.component";
+import { RefreshUserService } from '../../core/auth/refresh-user.service';
+import { AuthResponseModel } from '../../model/auth-response.model';
 
 @Component({
   selector: 'app-user',
@@ -19,13 +21,43 @@ export class UserComponent implements OnInit {
   users: ExistingUser[] = [];
   wishProducts: ProductModel[] = [];
   selectionsHistories: SelectionsHistoryModel[] = [];
+  authResponse: AuthResponseModel[] = [];
+  sid: string | undefined;
 
   constructor(private readonly selectionService: SelectionService,
               private router: Router,
+              private readonly refreshUserService: RefreshUserService,
               private readonly currentUserService: CurrentUserService,
+              private route: ActivatedRoute,
               public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    const code: string | null = this.route.snapshot.queryParamMap.get('code');
+
+    console.log("code " + code);
+    if (code != null) {
+      this.currentUserService.getSid().subscribe(sid => {
+        console.log(sid);
+
+        this.sid = sid as string;
+      });
+
+      this.currentUserService.getAuth(code, this.sid).subscribe(authResponse => {
+        this.authResponse = authResponse;
+      });
+
+      console.log(this.authResponse[0].userId);
+
+      localStorage.setItem('test', "test");
+      localStorage.setItem('auth_token', this.authResponse[0].token)
+      localStorage.setItem('user_id', String(this.authResponse[0].userId));
+
+      this.refreshUserService.refreshCurrentUser().subscribe();
+      this.router.navigate(["/user"]).then(() => {
+        window.location.reload();
+      });
+    }
+
     // @ts-ignore
     this.users.push(this.user$.getValue());
     this.loadWish(this.users[0].id);

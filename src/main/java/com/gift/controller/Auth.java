@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 import java.util.Objects;
 
 @CrossOrigin
@@ -43,8 +45,8 @@ public class Auth {
         return authenticationService.getAuth(authRequest);
     }
 
-    @GetMapping("/sid")
-    public String getSid (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    @PostMapping("/sid")
+    public String getSid (HttpServletRequest httpServletRequest) {
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {
             if (Objects.equals(cookie.getName(), "connect.sid")){

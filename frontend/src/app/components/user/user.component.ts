@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Injectable, OnInit} from '@angular/core';
+import { Component,  OnInit} from '@angular/core';
 import { SelectionService } from '../../services/selection.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import {CurrentUserService} from "../../core/auth/current-user.service";

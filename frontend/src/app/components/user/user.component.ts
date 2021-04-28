@@ -10,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ProductsSelectionDialogComponent} from "../products-selection-dialog/products-selection-dialog.component";
 import { RefreshUserService } from '../../core/auth/refresh-user.service';
 import { AuthResponseModel } from '../../model/auth-response.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user',
@@ -29,6 +30,7 @@ export class UserComponent implements OnInit {
               private readonly refreshUserService: RefreshUserService,
               private readonly currentUserService: CurrentUserService,
               private route: ActivatedRoute,
+              private http: HttpClient,
               public dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -36,7 +38,7 @@ export class UserComponent implements OnInit {
 
     console.log("code " + code);
     if (code != null) {
-      this.currentUserService.getSid().subscribe(sid => {
+      this.http.get(`api/auth/sid`).subscribe(sid => {
         console.log(sid);
 
         this.sid = sid as string;

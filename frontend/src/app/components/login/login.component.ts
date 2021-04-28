@@ -17,11 +17,12 @@ export class LoginComponent implements OnInit {
   url: string | undefined;
 
   constructor(
-    private readonly currentUserService: CurrentUserService
+    private readonly currentUserService: CurrentUserService,
+    private http: HttpClient,
   ) { }
 
   ngOnInit(): void {
-      this.currentUserService.getSid().subscribe(sid => {
+    this.http.get(`api/auth/sid`).subscribe(sid => {
         console.log(sid);
 
         this.sid = sid as string;

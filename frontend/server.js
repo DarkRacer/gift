@@ -17,8 +17,11 @@ app.use('/api', createProxyMiddleware({
   logLevel     : 'debug',
   target       : API_SERVER,
   changeOrigin : true,
-  secure       : false,
+  secure       : true,
   xfwd         : true,
+  pathRewrite: {
+    "^/api": ""
+  },
   onProxyReq   : function (proxyReq, req, res) {
     if (proxyReq.getHeader('origin')) {
       proxyReq.setHeader('origin', API_SERVER);

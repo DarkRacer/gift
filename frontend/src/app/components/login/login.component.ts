@@ -10,7 +10,7 @@ import { SelectionService } from '../../services/selection.service';
 })
 export class LoginComponent implements OnInit {
   content: string | undefined;
-  sid: SidModel[] = [];
+  sid: string | undefined;
   url: string | undefined;
 
   constructor(
@@ -20,14 +20,15 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.selectionService.getSid(" ").subscribe(sid => {
-        console.log(sid);
+    const cookies: string[] = document.cookie.split(";");
+    cookies.forEach((currentValue) => {
+        if(currentValue.includes("connect.sid")) {
+          this.sid = currentValue.replace("/connect.sid=/gi", "");
+        }
+    })
 
-        this.sid = sid;
-
-        this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
-          "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid[0].sid;
-      });
+    this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
+      "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
   }
 
   login(provider: string): void {

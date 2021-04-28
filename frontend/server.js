@@ -19,6 +19,9 @@ app.use('/api', createProxyMiddleware({
   changeOrigin : true,
   secure       : true,
   xfwd         : true,
+  cookieDomainRewrite: {
+    "*" : ""
+  },
   pathRewrite: {
     "^/api": ""
   },

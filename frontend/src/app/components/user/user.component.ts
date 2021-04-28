@@ -38,7 +38,7 @@ export class UserComponent implements OnInit {
 
     console.log("code " + code);
     if (code != null) {
-      this.http.get(`api/auth/sid`).subscribe(sid => {
+      this.http.post(`api/auth/sid`, "").subscribe(sid => {
         console.log(sid);
 
         this.sid = sid as string;

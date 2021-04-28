@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {HttpClient} from "@angular/common/http";
 import {CookieService} from "ngx-cookie-service";
 import { AuthResponseModel } from '../../model/auth-response.model';
+import { SidModel } from '../../model/sid.model';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.http.get(`api/auth/sid`).subscribe(sid => {
+    this.http.post(`api/auth/sid`, "").subscribe(sid => {
         console.log(sid);
 
         this.sid = sid as string;

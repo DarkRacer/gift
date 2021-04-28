@@ -11,6 +11,7 @@ import {ProductsSelectionDialogComponent} from "../products-selection-dialog/pro
 import { RefreshUserService } from '../../core/auth/refresh-user.service';
 import { AuthResponseModel } from '../../model/auth-response.model';
 import { HttpClient } from '@angular/common/http';
+import { SidModel } from '../../model/sid.model';
 
 @Component({
   selector: 'app-user',
@@ -23,7 +24,7 @@ export class UserComponent implements OnInit {
   wishProducts: ProductModel[] = [];
   selectionsHistories: SelectionsHistoryModel[] = [];
   authResponse: AuthResponseModel[] = [];
-  sid: string | undefined;
+  sid: SidModel[] = [];
 
   constructor(private readonly selectionService: SelectionService,
               private router: Router,
@@ -38,13 +39,13 @@ export class UserComponent implements OnInit {
 
     console.log("code " + code);
     if (code != null) {
-      this.http.post(`api/auth/sid`, "").subscribe(sid => {
+      this.selectionService.getSid(" ").subscribe(sid => {
         console.log(sid);
 
-        this.sid = sid as string;
+        this.sid = sid;
       });
 
-      this.currentUserService.getAuth(code, this.sid).subscribe(authResponse => {
+      this.currentUserService.getAuth(code, this.sid[0].sid).subscribe(authResponse => {
         this.authResponse = authResponse;
       });
 

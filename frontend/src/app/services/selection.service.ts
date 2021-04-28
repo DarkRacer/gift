@@ -69,4 +69,8 @@ export class SelectionService {
     const body = {id, productId};
     return this.http.post(`api/transaction/selectionsHistory/save`, body);
   }
+
+  getSid(body: string): Observable<any> {
+    return this.http.post(`api/auth/sid`, body);
+  }
 }

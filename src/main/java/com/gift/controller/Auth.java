@@ -47,7 +47,7 @@ public class Auth {
     }
 
     @PostMapping("/sid")
-    public Map<String, String> getSid (HttpServletRequest httpServletRequest) {
+    public Map<String, String> getSid (HttpServletRequest httpServletRequest, @RequestBody String body) {
         Map<String, String> map = new HashMap<>();
         Cookie[] cookies = httpServletRequest.getCookies();
         for (Cookie cookie : cookies) {

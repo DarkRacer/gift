@@ -36,7 +36,6 @@ export class UserComponent implements OnInit {
 
   ngOnInit(): void {
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
-    alert(document.cookie);
     console.log("code " + code);
     if (code != null) {
       const cookies: string[] = document.cookie.split(";");

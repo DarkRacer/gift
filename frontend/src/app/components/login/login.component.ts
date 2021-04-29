@@ -20,8 +20,18 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    alert(document.cookie);
+    console.log(document.cookie.length);
+    const req = new XMLHttpRequest();
+    // @ts-ignore
+    req.open('GET', document.location, false);
+    req.send(null);
+    console.log(req.getAllResponseHeaders().toLowerCase());
+    const headers = req.getAllResponseHeaders().toLowerCase();
+    alert(headers);
     const cookies: string[] = document.cookie.split(";");
+    console.log(document.cookie.split(";"));
+    console.log(cookies);
+
     cookies.forEach((currentValue) => {
         if(currentValue.includes("connect.sid")) {
           this.sid = currentValue.replace("/connect.sid=/gi", "");

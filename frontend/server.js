@@ -3,6 +3,7 @@ const session = require('express-session');
 const cors = require('cors');
 const app = express();
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const { v4: uuidv4 } = require('uuid');
 
 const API_SERVER = process.env.API_SERVER;
 
@@ -41,8 +42,11 @@ app.use(session({
   }
 }))
 
-app.get('/*', (req, res) =>
-  res.sendFile('index.html', {root: 'dist/frontend/'}),
+app.get('/*', (req, res) => {
+    let uuid = uuidv4();
+    res.set('UUID', uuid);
+    res.sendFile('index.html', { root: 'dist/frontend/' });
+  }
 );
 
 app.listen(process.env.PORT || 8000);

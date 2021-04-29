@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    alert(document.cookie);
     const cookies: string[] = document.cookie.split(";");
     cookies.forEach((currentValue) => {
         if(currentValue.includes("connect.sid")) {

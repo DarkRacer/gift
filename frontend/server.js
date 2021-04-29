@@ -20,7 +20,8 @@ app.use('/api', createProxyMiddleware({
   secure       : true,
   xfwd         : true,
   cookieDomainRewrite: {
-    "*" : ""
+    "search-gift-frontend.herokuapp.com" : "herokuapp.com",
+    "search-gift-backend.herokuapp.com" : "herokuapp.com"
   },
   pathRewrite: {
     "^/api": ""

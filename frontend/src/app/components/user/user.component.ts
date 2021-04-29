@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
   wishProducts: ProductModel[] = [];
   selectionsHistories: SelectionsHistoryModel[] = [];
   authResponse: AuthResponseModel[] = [];
-  sid: string | undefined;
+  uuid: string | undefined;
 
   constructor(private readonly selectionService: SelectionService,
               private router: Router,
@@ -38,14 +38,22 @@ export class UserComponent implements OnInit {
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
     console.log("code " + code);
     if (code != null) {
-      const cookies: string[] = document.cookie.split(";");
-      cookies.forEach((currentValue) => {
-        if(currentValue.includes("connect.sid")) {
-          this.sid = currentValue.replace("/connect.sid=/gi", "");
+      const req = new XMLHttpRequest();
+      // @ts-ignore
+      req.open('GET', document.location, false);
+      req.send(null);
+      console.log(req.getAllResponseHeaders().toLowerCase());
+      const header = req.getAllResponseHeaders().toLowerCase();
+      const headers: string[] = header.split(";");
+      console.log(headers);
+
+      headers.forEach((currentValue) => {
+        if(currentValue.includes("uuid")) {
+          this.uuid = currentValue.replace("/uuid: /gi", "");
         }
       })
 
-      this.currentUserService.getAuth(code, this.sid).subscribe(authResponse => {
+      this.currentUserService.getAuth(code, this.uuid).subscribe(authResponse => {
         this.authResponse = authResponse;
       });
 

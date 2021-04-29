@@ -10,7 +10,7 @@ import { SelectionService } from '../../services/selection.service';
 })
 export class LoginComponent implements OnInit {
   content: string | undefined;
-  sid: string | undefined;
+  uuid: string | undefined;
   url: string | undefined;
 
   constructor(
@@ -20,26 +20,23 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(document.cookie.length);
     const req = new XMLHttpRequest();
     // @ts-ignore
     req.open('GET', document.location, false);
     req.send(null);
     console.log(req.getAllResponseHeaders().toLowerCase());
-    const headers = req.getAllResponseHeaders().toLowerCase();
-    alert(headers);
-    const cookies: string[] = document.cookie.split(";");
-    console.log(document.cookie.split(";"));
-    console.log(cookies);
+    const header = req.getAllResponseHeaders().toLowerCase();
+    const headers: string[] = header.split(";");
+    console.log(headers);
 
-    cookies.forEach((currentValue) => {
-        if(currentValue.includes("connect.sid")) {
-          this.sid = currentValue.replace("/connect.sid=/gi", "");
+    headers.forEach((currentValue) => {
+        if(currentValue.includes("uuid")) {
+          this.uuid = currentValue.replace("/uuid: /gi", "");
         }
     })
 
     this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
-      "redirect_uri=https://search-gift-frontend.herokuapp.com/user&sid="+ this.sid;
+      "redirect_uri=https://search-gift-frontend.herokuapp.com/user&uuid="+ this.uuid;
   }
 
   login(provider: string): void {

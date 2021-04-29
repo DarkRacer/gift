@@ -31,6 +31,6 @@ public class AuthenticationEntity {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "sid")
-    private String sid;
+    @Column(name = "uuid")
+    private String uuid;
 }

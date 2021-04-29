@@ -60,12 +60,8 @@ export class CurrentUserService {
     this.user$.next(user);
   }
 
-  getAuth(code: string, sid: string | undefined): Observable<any> {
-    const body = { code, sid };
+  getAuth(code: string, uuid: string | undefined): Observable<any> {
+    const body = { code, uuid };
     return this.http.post(`api/auth/code`, body);
-  }
-
-  getSid(): Observable<Object> {
-    return this.http.get(`api/auth/sid`);
   }
 }

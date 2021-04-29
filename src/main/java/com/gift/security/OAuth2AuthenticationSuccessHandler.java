@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.gift.security.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-import static com.gift.security.HttpCookieOAuth2AuthorizationRequestRepository.SID_PARAM_COOKIE_NAME;
+import static com.gift.security.HttpCookieOAuth2AuthorizationRequestRepository.UUID_PARAM_COOKIE_NAME;
 
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -40,8 +40,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		String code = String.valueOf(UUID.randomUUID());
 		response.addHeader("code", code);
 		String targetUrl = determineTargetUrl(request, response, authentication);
-		Optional<String> sid = CookieUtils.getCookie(request, SID_PARAM_COOKIE_NAME).map(Cookie::getValue);
-		String connectSid = sid.orElse(null);
+		Optional<String> uuid = CookieUtils.getCookie(request, UUID_PARAM_COOKIE_NAME).map(Cookie::getValue);
+		String uid = uuid.orElse(null);
 
 		if (response.isCommitted()) {
 			logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -59,7 +59,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		}
 
 		authenticationEntity.setCode(code);
-		authenticationEntity.setSid(connectSid);
+		authenticationEntity.setUuid(uid);
 		authenticationEntity.setToken(tokenProvider.createToken(authentication));
 
 		authenticationRepo.save(authenticationEntity);

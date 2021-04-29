@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AuthRequest {
     private String code;
-    private String sid;
+    private String uuid;
 }

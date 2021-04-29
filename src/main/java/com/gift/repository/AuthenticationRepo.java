@@ -4,7 +4,7 @@ import com.gift.model.entities.AuthenticationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AuthenticationRepo extends JpaRepository<AuthenticationEntity, Long> {
-    AuthenticationEntity findByCodeAndSid(String code, String sid);
+    AuthenticationEntity findByCodeAndUuid(String code, String uuid);
 
     AuthenticationEntity findByUserId(Long userId);
 }

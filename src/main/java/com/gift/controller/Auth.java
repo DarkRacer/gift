@@ -45,17 +45,4 @@ public class Auth {
     public AuthResponse getAuth (@RequestBody AuthRequest authRequest) {
         return authenticationService.getAuth(authRequest);
     }
-
-    @PostMapping("/sid")
-    public Map<String, String> getSid (HttpServletRequest httpServletRequest, @RequestBody String body) {
-        Map<String, String> map = new HashMap<>();
-        Cookie[] cookies = httpServletRequest.getCookies();
-        for (Cookie cookie : cookies) {
-            if (Objects.equals(cookie.getName(), "connect.sid")){
-                map.put("sid", cookie.getValue());
-                return map;
-            }
-        }
-        return null;
-    }
 }

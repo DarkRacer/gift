@@ -17,8 +17,8 @@ public class AuthenticationService {
     }
 
     public AuthResponse getAuth(AuthRequest authRequest) {
-        AuthenticationEntity authenticationEntity = authenticationRepo.findByCodeAndSid(authRequest.getCode(),
-                                                                                        authRequest.getSid());
+        AuthenticationEntity authenticationEntity = authenticationRepo.findByCodeAndUuid(authRequest.getCode(),
+                                                                                        authRequest.getUuid());
         return new AuthResponse(authenticationEntity.getUserId(), authenticationEntity.getToken());
     }
 }

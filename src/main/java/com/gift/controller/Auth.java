@@ -7,6 +7,7 @@ import com.gift.model.projections.LocalUser;
 import com.gift.service.AuthenticationService;
 import com.gift.util.GeneralUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,7 +42,7 @@ public class Auth {
         return ResponseEntity.ok(GeneralUtils.buildUserInfo(user));
     }
 
-    @PostMapping("/code")
+    @PostMapping(name = "/code", produces = MediaType.APPLICATION_JSON_VALUE)
     public AuthResponse getAuth (@RequestBody AuthRequest authRequest) {
         return authenticationService.getAuth(authRequest);
     }

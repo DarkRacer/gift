@@ -1,5 +1,7 @@
 package com.gift.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gift.model.entities.CurrentUser;
 import com.gift.model.projections.AuthRequest;
 import com.gift.model.projections.AuthResponse;
@@ -42,8 +44,10 @@ public class Auth {
         return ResponseEntity.ok(GeneralUtils.buildUserInfo(user));
     }
 
-    @PostMapping(value = "/code", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public AuthResponse getAuth (@RequestBody AuthRequest authRequest) {
-        return authenticationService.getAuth(authRequest);
+    @PostMapping(value = "/code")
+    public AuthResponse getAuth (@RequestBody String authRequest) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return authenticationService.getAuth(objectMapper.readValue(authRequest, AuthRequest.class));
     }
 }

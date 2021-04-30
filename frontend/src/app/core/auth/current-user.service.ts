@@ -64,4 +64,20 @@ export class CurrentUserService {
     const body = { code, uuid };
     return this.http.post(`api/auth/code`, body);
   }
+
+  getUuid(): string {
+    const req = new XMLHttpRequest();
+    // @ts-ignore
+    req.open('GET', document.location, false);
+    req.send(null);
+    const header = req.getAllResponseHeaders().toLowerCase();
+    const headers: string[] = header.split("\n");
+
+    for(let index in headers) {
+      if(headers[index].includes("uuid:")) {
+        return headers[index].replace("uuid: ", "");
+      }
+    }
+    return "";
+  }
 }

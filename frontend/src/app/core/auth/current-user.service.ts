@@ -1,6 +1,6 @@
 import {  Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import {HttpBackend, HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Role } from './role.model';
 import { Anonymous, CurrentUser, LoggedUser } from './current-user.model';
@@ -62,7 +62,8 @@ export class CurrentUserService {
 
   getAuth(code: string, uuid: string | undefined): Observable<any> {
     const body = { code, uuid };
-    return this.http.post(`api/auth/code`, body);
+    return this.http.post(`api/auth/code`, body, {headers: new HttpHeaders({
+        'Content-Type': 'application/json'})});
   }
 
   getUuid(): string {

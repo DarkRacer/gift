@@ -42,7 +42,7 @@ public class Auth {
         return ResponseEntity.ok(GeneralUtils.buildUserInfo(user));
     }
 
-    @PostMapping(name = "/code", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(name = "/code", consumes = MediaType.APPLICATION_JSON_VALUE)
     public AuthResponse getAuth (@RequestBody AuthRequest authRequest) {
         return authenticationService.getAuth(authRequest);
     }

@@ -66,19 +66,11 @@ export class CurrentUserService {
         'Content-Type': 'application/json'})});
   }
 
-  getUuid(): string {
+  getUuid(): string | null {
     const req = new XMLHttpRequest();
     // @ts-ignore
     req.open('GET', document.location, false);
     req.send(null);
-    const header = req.getAllResponseHeaders().toLowerCase();
-    const headers: string[] = header.split("\n");
-
-    for(let index in headers) {
-      if(headers[index].includes("uuid:")) {
-        return headers[index].replace("uuid: ", "").replace(" ", "");
-      }
-    }
-    return "";
+    return req.getResponseHeader("Uuid");
   }
 }

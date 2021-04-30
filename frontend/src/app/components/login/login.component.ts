@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.url = "http://localhost:8080/oauth2/authorization/vk?" +
-      "redirect_uri=http://localhost:8000/login&uuid="+ this.currentUserService.getUuid();
+    this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
+      "redirect_uri=https://search-gift-frontend.herokuapp.com/login&uuid="+ this.currentUserService.getUuid();
 
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
     console.log("code " + code);

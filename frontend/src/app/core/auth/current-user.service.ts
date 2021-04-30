@@ -75,7 +75,7 @@ export class CurrentUserService {
 
     for(let index in headers) {
       if(headers[index].includes("uuid:")) {
-        return headers[index].replace("uuid: ", "");
+        return headers[index].replace("uuid: ", "").replace(" ", "");
       }
     }
     return "";

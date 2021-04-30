@@ -22,7 +22,6 @@ export class UserComponent implements OnInit {
   users: ExistingUser[] = [];
   wishProducts: ProductModel[] = [];
   selectionsHistories: SelectionsHistoryModel[] = [];
-  authResponse: AuthResponseModel[] = [];
 
   constructor(private readonly selectionService: SelectionService,
               private router: Router,
@@ -33,25 +32,6 @@ export class UserComponent implements OnInit {
               public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    const code: string | null = this.route.snapshot.queryParamMap.get('code');
-    console.log("code " + code);
-    if (code != null) {
-      this.currentUserService.getAuth(code, this.currentUserService.getUuid()).subscribe(authResponse => {
-        this.authResponse = authResponse;
-      });
-
-      console.log(this.authResponse[0].userId);
-
-      localStorage.setItem('test', "test");
-      localStorage.setItem('auth_token', this.authResponse[0].token)
-      localStorage.setItem('user_id', String(this.authResponse[0].userId));
-
-      this.refreshUserService.refreshCurrentUser().subscribe();
-      this.router.navigate(["/user"]).then(() => {
-        window.location.reload();
-      });
-    }
-
     // @ts-ignore
     this.users.push(this.user$.getValue());
     this.loadWish(this.users[0].id);

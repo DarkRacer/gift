@@ -43,7 +43,7 @@ app.use(session({
 }))
 
 app.get('/*', (req, res) => {
-    let uuid = uuidv4();
+    const uuid = uuidv4();
     res.set('UUID', uuid);
     res.sendFile('index.html', { root: 'dist/frontend/' });
   }

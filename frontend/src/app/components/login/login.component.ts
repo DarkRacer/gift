@@ -12,10 +12,7 @@ import { AuthResponseModel } from '../../model/auth-response.model';
 })
 export class LoginComponent implements OnInit {
   content: string | undefined;
-  uuid: string | undefined;
   url: string | undefined;
-
-  authResponse: AuthResponseModel[] = [];
 
   constructor(
     private readonly currentUserService: CurrentUserService,
@@ -27,23 +24,25 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
-      "redirect_uri=https://search-gift-frontend.herokuapp.com/login&uuid="+ this.currentUserService.getUuid();
-
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
-    console.log("code " + code);
+
     if (code != null) {
-      this.currentUserService.getAuth(code, this.currentUserService.getUuid()).subscribe(authResponse => {
-        this.authResponse = authResponse;
-      });
+      this.currentUserService.getAuth(code, localStorage.getItem("UUID") as string).subscribe(authResponse => {
+        localStorage.setItem('auth_token', authResponse.token)
+        localStorage.setItem('user_id', String(authResponse.userId));
 
-      localStorage.setItem('auth_token', this.authResponse[0].token)
-      localStorage.setItem('user_id', String(this.authResponse[0].userId));
-
-      this.refreshUserService.refreshCurrentUser().subscribe();
-      this.router.navigate(["/user"]).then(() => {
-        window.location.reload();
+        this.refreshUserService.refreshCurrentUser().subscribe();
+        this.router.navigate(["/user"]).then(() => {
+          window.location.reload();
+        });
       });
+    } else {
+      const uuid: string = this.currentUserService.getUuid();
+
+      this.url = "http://localhost:8080/oauth2/authorization/vk?" +
+        "redirect_uri=http://localhost:8000/login&uuid="+ uuid;
+
+      localStorage.setItem("UUID", uuid);
     }
   }
 

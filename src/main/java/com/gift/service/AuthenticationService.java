@@ -18,7 +18,8 @@ public class AuthenticationService {
 
     public AuthResponse getAuth(AuthRequest authRequest) {
         AuthenticationEntity authenticationEntity = authenticationRepo.findByCodeAndUuid(authRequest.getCode(),
-                                                                                        authRequest.getUuid());
+                                                    authRequest.getUuid().replace("\r", ""));
         return new AuthResponse(authenticationEntity.getUserId(), authenticationEntity.getToken());
+
     }
 }

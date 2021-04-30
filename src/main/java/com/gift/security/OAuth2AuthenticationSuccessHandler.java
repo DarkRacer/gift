@@ -1,8 +1,10 @@
 package com.gift.security;
 
 import com.gift.model.entities.AuthenticationEntity;
+import com.gift.model.entities.Users;
 import com.gift.model.projections.LocalUser;
 import com.gift.repository.AuthenticationRepo;
+import com.gift.repository.UserRepository;
 import com.gift.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -23,15 +25,17 @@ import static com.gift.security.HttpCookieOAuth2AuthorizationRequestRepository.U
 @Component
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 	private final AuthenticationRepo authenticationRepo;
+	private final UserRepository userRepository;
 	private TokenProvider tokenProvider;
 
 	private HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
 	@Autowired
 	OAuth2AuthenticationSuccessHandler(TokenProvider tokenProvider,
-									   AuthenticationRepo authenticationRepo, HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
+									   AuthenticationRepo authenticationRepo, UserRepository userRepository, HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository) {
 		this.tokenProvider = tokenProvider;
 		this.authenticationRepo = authenticationRepo;
+		this.userRepository = userRepository;
 		this.httpCookieOAuth2AuthorizationRequestRepository = httpCookieOAuth2AuthorizationRequestRepository;
 	}
 
@@ -51,11 +55,13 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		clearAuthenticationAttributes(request, response);
 		LocalUser userPrincipal = (LocalUser) authentication.getPrincipal();
 
-		AuthenticationEntity authenticationEntity = authenticationRepo.findByUserId(userPrincipal.getUser().getId());
+		Users user = userRepository.findUsersById(userPrincipal.getUser().getId());
+
+		AuthenticationEntity authenticationEntity = authenticationRepo.findByUserId(user.getId());
 
 		if (authenticationEntity == null) {
 			authenticationEntity = new AuthenticationEntity();
-			authenticationEntity.setUserId(userPrincipal.getUser().getId());
+			authenticationEntity.setUserId(user.getId());
 		}
 
 		authenticationEntity.setCode(code);

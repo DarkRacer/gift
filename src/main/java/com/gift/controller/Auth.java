@@ -45,9 +45,9 @@ public class Auth {
     }
 
     @PostMapping(value = "/code")
-    public AuthResponse getAuth (@RequestBody String authRequest) throws JsonProcessingException {
+    public String getAuth (@RequestBody String authRequest) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        return authenticationService.getAuth(objectMapper.readValue(authRequest, AuthRequest.class));
+        return objectMapper.writeValueAsString(authenticationService.getAuth(objectMapper.readValue(authRequest, AuthRequest.class)));
     }
 }

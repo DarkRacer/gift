@@ -1,5 +1,7 @@
 package com.gift.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gift.model.api.vk.ResponseUserGet;
 import com.gift.model.entities.Product;
 import com.gift.model.projections.Assortment;
@@ -26,6 +28,7 @@ import java.util.Set;
 @RequestMapping("/gifts")
 public class GiftController {
     private final GiftService giftService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public GiftController(GiftService giftService) {
@@ -33,17 +36,17 @@ public class GiftController {
     }
 
     @PostMapping("/find/groups")
-    public Set<Group> findGroups (@RequestBody String userUrl) throws InterruptedException {
-        return giftService.findGroups(userUrl);
+    public String findGroups (@RequestBody String userUrl) throws InterruptedException, JsonProcessingException {
+        return objectMapper.writeValueAsString(giftService.findGroups(userUrl));
     }
 
     @PostMapping("/find/user")
-    public ResponseUserGet findUser (@RequestBody String userUrl) {
-        return giftService.findUser(userUrl);
+    public String findUser (@RequestBody String userUrl) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(giftService.findUser(userUrl));
     }
 
     @PostMapping("/self")
-    public List<Assortment> selectSelf (@RequestBody List<Product> products) {
-        return giftService.selectSelf(products);
+    public String selectSelf (@RequestBody List<Product> products) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(giftService.selectSelf(products));
     }
 }

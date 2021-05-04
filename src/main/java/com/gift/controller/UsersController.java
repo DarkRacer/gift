@@ -1,5 +1,7 @@
 package com.gift.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gift.model.entities.Users;
 import com.gift.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,9 @@ public class UsersController {
     }
 
     @GetMapping("/{id}")
-    public Users getInfo (@PathVariable("id") Long id) {
-        return usersService.getInfo(id);
+    public String getInfo (@PathVariable("id") Long id) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return objectMapper.writeValueAsString(usersService.getInfo(id));
     }
 }

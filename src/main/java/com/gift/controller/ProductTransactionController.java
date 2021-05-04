@@ -1,15 +1,12 @@
 package com.gift.controller;
 
-import com.gift.model.entities.Product;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gift.model.projections.Choice;
 import com.gift.model.projections.InfoTransaction;
-import com.gift.model.projections.SelectionsHistory;
 import com.gift.service.ProductTransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * Controller for the transactions products
@@ -21,6 +18,7 @@ import java.util.Set;
 @RequestMapping("/transaction")
 public class ProductTransactionController {
     private final ProductTransactionService productTransactionService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public ProductTransactionController(ProductTransactionService productTransactionService) {
@@ -28,37 +26,37 @@ public class ProductTransactionController {
     }
 
     @PostMapping("/save")
-    public void save (@RequestBody Choice choice) {
-        productTransactionService.save(choice);
+    public void save (@RequestBody String choice) throws JsonProcessingException {
+        productTransactionService.save(objectMapper.readValue(choice, Choice.class));
     }
 
     @PostMapping("/wish")
-    public Set<Product> loadWish(@RequestBody Long userId) {
-        return productTransactionService.loadWish(userId);
+    public String loadWish(@RequestBody Long userId) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(productTransactionService.loadWish(userId));
     }
 
     @PostMapping("/history")
-    public List<SelectionsHistory> getHistory(@RequestBody Long userId){
-        return productTransactionService.getHistory(userId);
+    public String getHistory(@RequestBody Long userId) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(productTransactionService.getHistory(userId));
     }
 
     @PostMapping("/wish/delete")
-    public void deleteWish (@RequestBody InfoTransaction transactionWish){
-        productTransactionService.deleteWish(transactionWish);
+    public void deleteWish (@RequestBody String transactionWish) throws JsonProcessingException {
+        productTransactionService.deleteWish(objectMapper.readValue(transactionWish, InfoTransaction.class));
     }
 
     @PostMapping("/wish/save")
-    public void saveWish (@RequestBody InfoTransaction transactionWish){
-        productTransactionService.saveWish(transactionWish);
+    public void saveWish (@RequestBody String transactionWish) throws JsonProcessingException {
+        productTransactionService.saveWish(objectMapper.readValue(transactionWish, InfoTransaction.class));
     }
     @PostMapping("/selectionsHistory/delete")
-    public void deleteSelectionsHistory (@RequestBody InfoTransaction transaction){
-        productTransactionService.deleteSelectionsHistory(transaction);
+    public void deleteSelectionsHistory (@RequestBody String transaction) throws JsonProcessingException {
+        productTransactionService.deleteSelectionsHistory(objectMapper.readValue(transaction, InfoTransaction.class));
     }
 
     @PostMapping("/selectionsHistory/save")
-    public void saveSelectionsHistory(@RequestBody InfoTransaction transaction){
-        productTransactionService.saveSelectionsHistory(transaction);
+    public void saveSelectionsHistory(@RequestBody String transaction) throws JsonProcessingException {
+        productTransactionService.saveSelectionsHistory(objectMapper.readValue(transaction, InfoTransaction.class));
     }
 
 

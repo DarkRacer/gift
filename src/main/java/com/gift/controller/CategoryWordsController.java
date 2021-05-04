@@ -1,5 +1,7 @@
 package com.gift.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gift.model.projections.SelectedCategory;
 import com.gift.service.CategoryWordsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +26,9 @@ public class CategoryWordsController {
     }
 
     @PostMapping("/find")
-    public Set<SelectedCategory> find (@RequestBody String[] topics) {
-        return categoryWordsService.findCategories(topics);
+    public String find (@RequestBody String[] topics) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return objectMapper.writeValueAsString(categoryWordsService.findCategories(topics));
     }
 }

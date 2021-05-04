@@ -1,0 +1,6 @@
+<mat-selection-list #shoes [multiple]="false" class="list">
+  <mat-list-option *ngFor="let option of typesOfOptions" [value]="option">
+    {{option}}
+  </mat-list-option>
+</mat-selection-list>
+

@@ -4,6 +4,7 @@ import { SelectionComponent } from './components/selection/selection.component';
 import {UserComponent} from "./components/user/user.component";
 import {LoginComponent} from "./components/login/login.component";
 import {AuthGuardGuard} from "./core/guard/auth-guard.guard";
+import { AdminComponent } from './components/admin/admin.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,11 @@ const routes: Routes = [
     path: 'login',
     component: LoginComponent
   },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuardGuard]
+  }
 ];
 
 @NgModule({

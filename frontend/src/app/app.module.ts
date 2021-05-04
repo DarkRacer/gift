@@ -30,9 +30,10 @@ import {CoreModule} from "./core/core.module";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { ProductsSelectionDialogComponent } from './components/products-selection-dialog/products-selection-dialog.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent],
+  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

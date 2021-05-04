@@ -1,6 +1,7 @@
 package com.gift.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gift.model.projections.SelectedCategory;
 import com.gift.service.CategoryWordsService;
@@ -26,9 +27,9 @@ public class CategoryWordsController {
     }
 
     @PostMapping("/find")
-    public String find (@RequestBody String[] topics) throws JsonProcessingException {
+    public String find (@RequestBody String topics) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        return objectMapper.writeValueAsString(categoryWordsService.findCategories(topics));
+        return objectMapper.writeValueAsString(categoryWordsService.findCategories(objectMapper.readValue(topics, new TypeReference<String[]>(){})));
     }
 }

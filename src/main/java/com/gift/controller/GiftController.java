@@ -1,6 +1,7 @@
 package com.gift.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gift.model.api.vk.ResponseUserGet;
 import com.gift.model.entities.Product;
@@ -46,7 +47,7 @@ public class GiftController {
     }
 
     @PostMapping("/self")
-    public String selectSelf (@RequestBody List<Product> products) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(giftService.selectSelf(products));
+    public String selectSelf (@RequestBody String products) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(giftService.selectSelf(objectMapper.readValue(products, new TypeReference<List<Product>>() {})));
     }
 }

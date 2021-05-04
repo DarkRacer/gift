@@ -31,13 +31,13 @@ public class ProductTransactionController {
     }
 
     @PostMapping("/wish")
-    public String loadWish(@RequestBody Long userId) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(productTransactionService.loadWish(userId));
+    public String loadWish(@RequestBody String userId) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(productTransactionService.loadWish(objectMapper.readValue(userId, Long.class)));
     }
 
     @PostMapping("/history")
-    public String getHistory(@RequestBody Long userId) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(productTransactionService.getHistory(userId));
+    public String getHistory(@RequestBody String userId) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(productTransactionService.getHistory(objectMapper.readValue(userId, Long.class)));
     }
 
     @PostMapping("/wish/delete")

@@ -16,11 +16,6 @@ import java.net.URI;
 @Component
 class CustomRequestEntityConverter implements
         Converter<OAuth2AuthorizationCodeGrantRequest, RequestEntity<?>> {
-
-    @Value("${spring.security.oauth2.client.registration.vk.client-secret}")
-    private String clientSecret;
-
-
     private OAuth2AuthorizationCodeGrantRequestEntityConverter defaultConverter;
 
     public CustomRequestEntityConverter() {

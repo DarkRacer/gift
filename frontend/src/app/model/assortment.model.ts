@@ -1,7 +1,7 @@
-import { CategoryModel } from './category.model';
+import { SelectedCategoryModel } from './selected-category.model';
 import { ProductModel } from './product.model';
 
 export interface AssortmentModel {
-  category: CategoryModel;
+  category: SelectedCategoryModel;
   products: ProductModel[];
 }

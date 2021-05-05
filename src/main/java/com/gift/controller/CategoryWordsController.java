@@ -20,6 +20,7 @@ import java.util.Set;
 @RequestMapping("/categories")
 public class CategoryWordsController {
     private final CategoryWordsService categoryWordsService;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public CategoryWordsController(CategoryWordsService categoryWordsService) {
@@ -28,8 +29,11 @@ public class CategoryWordsController {
 
     @PostMapping("/find")
     public String find (@RequestBody String topics) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
-
         return objectMapper.writeValueAsString(categoryWordsService.findCategories(objectMapper.readValue(topics, new TypeReference<String[]>(){})));
+    }
+
+    @GetMapping("/all")
+    public String findAll () throws JsonProcessingException {
+        return objectMapper.writeValueAsString(categoryWordsService.findAll());
     }
 }

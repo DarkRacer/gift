@@ -1,6 +1,28 @@
-<mat-selection-list #shoes [multiple]="false" class="list">
-  <mat-list-option *ngFor="let option of typesOfOptions" [value]="option">
+<mat-selection-list #options [multiple]="false" class="list">
+  <mat-list-option *ngFor="let option of typesOfOptions" [value]="option" (click)="selectionOption = option">
     {{option}}
   </mat-list-option>
 </mat-selection-list>
 
+<div *ngIf="selectionOption == typesOfOptions[0]" class="working-area">
+  {{selectionOption}}
+</div>
+
+<div *ngIf="selectionOption == typesOfOptions[1]" class="working-area">
+  <cdk-virtual-scroll-viewport itemSize="100" class="word">
+    <mat-selection-list #wordCategories [multiple]="false">
+      <mat-list-option *ngFor="let wordCategories of categoryWords" [value]="wordCategories" (click)="selectedWordCategories = wordCategories">
+        {{wordCategories.word}}
+        <mat-divider></mat-divider>
+      </mat-list-option>
+    </mat-selection-list>
+  </cdk-virtual-scroll-viewport>
+
+  <div *ngIf="selectedWordCategories">
+    {{selectedWordCategories.word}}
+  </div>
+</div>
+
+<div *ngIf="selectionOption == typesOfOptions[2]" class="working-area">
+  {{selectionOption}}
+</div>

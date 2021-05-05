@@ -1,18 +1,12 @@
 package com.gift.service;
 
-import com.gift.api.MegaIndex;
-import com.gift.api.VK;
-import com.gift.model.api.megaIndex.Data;
-import com.gift.model.api.megaIndex.Post;
-import com.gift.model.api.megaIndex.Topic;
-import com.gift.model.api.vk.Items;
+
 import com.gift.model.entities.Category;
 import com.gift.model.entities.CategoryWord;
-import com.gift.model.entities.Product;
 import com.gift.model.projections.SelectedCategory;
+import com.gift.model.projections.WordCategories;
 import com.gift.repository.CategoriesRepo;
 import com.gift.repository.CategoryWordsRepo;
-import com.gift.repository.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,5 +68,41 @@ public class CategoryWordsService {
         }
 
         return selectedCategories;
+    }
+
+    public List<WordCategories> findAll() {
+        List<CategoryWord> categoryWords = categoryWordsRepo.findAll();
+        List<WordCategories> wordCategoriesList = new ArrayList<>();
+
+        for (CategoryWord categoryWord : categoryWords) {
+            if (check(categoryWord, wordCategoriesList)) {
+                WordCategories wordCategories = new WordCategories();
+                List<Category> categories = new ArrayList<>();
+
+                for (CategoryWord categoryWordCheck : categoryWords) {
+                    if (Objects.equals(categoryWord.getWord().toLowerCase(), categoryWordCheck.getWord().toLowerCase())) {
+                        categories.add(categoryWordCheck.getCategory());
+                    }
+                }
+
+                wordCategories.setWord(categoryWord.getWord());
+                wordCategories.setCategories(categories);
+                wordCategoriesList.add(wordCategories);
+            }
+        }
+
+        return wordCategoriesList;
+    }
+
+    private boolean check (CategoryWord categoryWord, List<WordCategories> wordCategoriesList) {
+        if (wordCategoriesList != null) {
+            for (WordCategories wordCategories : wordCategoriesList) {
+                if (categoryWord.getWord().toLowerCase().equals(wordCategories.getWord().toLowerCase())) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

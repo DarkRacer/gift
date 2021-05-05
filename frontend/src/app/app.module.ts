@@ -31,6 +31,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatGridListModule} from "@angular/material/grid-list";
 import { ProductsSelectionDialogComponent } from './components/products-selection-dialog/products-selection-dialog.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent],
@@ -60,7 +61,8 @@ import { AdminComponent } from './components/admin/admin.component';
     MatDividerModule,
     CoreModule,
     MatMenuModule,
-    MatGridListModule
+    MatGridListModule,
+    ScrollingModule
   ],
   providers: [],
   bootstrap: [AppComponent],

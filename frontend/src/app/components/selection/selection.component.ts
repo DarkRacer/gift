@@ -6,7 +6,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupModel } from '../../model/group.model';
 import { UserVkModel } from '../../model/userVk.model';
-import { CategoryModel } from '../../model/category.model';
+import { SelectedCategoryModel } from '../../model/selected-category.model';
 import { SelfDialogComponent } from '../self-dialog/self-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
 import {ExistingUser} from "../../model/existing-user.model";
@@ -27,7 +27,7 @@ export class SelectionComponent implements OnInit {
   groups: GroupModel[] = [];
   users: UserVkModel[] = [];
   selectionElement: GroupModel | undefined = undefined;
-  categories: CategoryModel[] = [];
+  categories: SelectedCategoryModel[] = [];
   topics: string[] = [];
   datasourceProduct = new MatTableDataSource<ProductModel>(this.products);
   initialSize = 0;
@@ -107,8 +107,8 @@ export class SelectionComponent implements OnInit {
     return row as GroupModel;
   }
 
-  _category(row: any): CategoryModel {
-    return row as CategoryModel;
+  _category(row: any): SelectedCategoryModel {
+    return row as SelectedCategoryModel;
   }
 
   _product(row: any): ProductModel {

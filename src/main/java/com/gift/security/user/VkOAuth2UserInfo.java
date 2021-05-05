@@ -25,6 +25,6 @@ public class VkOAuth2UserInfo extends OAuth2UserInfo {
 
     @Override
     public String getImage() {
-        return (String) attributes.get("photo_50");
+        return (String) attributes.get("photo_max_orig");
     }
 }

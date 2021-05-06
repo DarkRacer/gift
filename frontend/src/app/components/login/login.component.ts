@@ -27,7 +27,8 @@ export class LoginComponent implements OnInit {
     const code: string | null = this.route.snapshot.queryParamMap.get('code');
 
     if (code != null) {
-      this.currentUserService.getAuth(code, localStorage.getItem("UUID") as string).subscribe(authResponse => {
+      const uuid: string = (localStorage.getItem("UUID") as string).replace("\\r", "");
+      this.currentUserService.getAuth(code, uuid).subscribe(authResponse => {
         localStorage.setItem('auth_token', authResponse.token)
         localStorage.setItem('user_id', String(authResponse.userId));
 
@@ -39,8 +40,8 @@ export class LoginComponent implements OnInit {
     } else {
       const uuid: string | null = this.currentUserService.getUuid();
 
-      this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
-        "redirect_uri=https://search-gift-frontend.herokuapp.com/login&uuid="+ uuid;
+      this.url = "http://localhost:8080/oauth2/authorization/vk?" +
+        "redirect_uri=http://localhost:8000/login&uuid="+ uuid;
 
       if (typeof uuid === 'string') {
         localStorage.setItem('UUID', uuid);

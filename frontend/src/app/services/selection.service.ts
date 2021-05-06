@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProductModel } from '../model/product.model';
-import { SelectedCategoryModel } from '../model/selected-category.model';
+import { CategoryModel } from '../model/category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class SelectionService {
     return this.http.post(`api/categories/find`, topics);
   }
 
-  findProducts(categories: SelectedCategoryModel[], userId: number): Observable<any> {
+  findProducts(categories: CategoryModel[], userId: number): Observable<any> {
     const body = {categories, userId};
     return this.http.post(`api/products/find`, body);
   }

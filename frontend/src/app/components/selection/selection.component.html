@@ -130,7 +130,7 @@
       <table mat-table [dataSource]="categories" class="table table-selection" *ngIf="categories.length > 0">
         <ng-container matColumnDef="name">
           <th *matHeaderCellDef mat-header-cell class="cell-selection">Выбранная категория</th>
-          <td *matCellDef="let row" mat-cell class="cell-selection">{{ _category(row).name }}</td>
+          <td *matCellDef="let row" mat-cell class="cell-selection">{{ _category(row).category.name }}</td>
         </ng-container>
 
         <ng-container matColumnDef="topics">

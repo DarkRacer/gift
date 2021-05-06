@@ -11,6 +11,7 @@ import { SelfDialogComponent } from '../self-dialog/self-dialog.component';
 import { MatTableDataSource } from '@angular/material/table';
 import {ExistingUser} from "../../model/existing-user.model";
 import {CurrentUserService} from "../../core/auth/current-user.service";
+import { CategoryModel } from '../../model/category.model';
 
 @Component({
   selector: 'app-selection',
@@ -28,6 +29,7 @@ export class SelectionComponent implements OnInit {
   users: UserVkModel[] = [];
   selectionElement: GroupModel | undefined = undefined;
   categories: SelectedCategoryModel[] = [];
+  categoriesForFind: CategoryModel[] = [];
   topics: string[] = [];
   datasourceProduct = new MatTableDataSource<ProductModel>(this.products);
   initialSize = 0;
@@ -59,7 +61,10 @@ export class SelectionComponent implements OnInit {
     this.selectionService
       .findGroups(this.userUrlGroup.controls.userUrlCtrl.value)
       .subscribe((e) => {
+        console.log("groups");
+        console.log(e);
         this.groups = e;
+        console.log(this.groups);
       });
   }
 
@@ -83,12 +88,20 @@ export class SelectionComponent implements OnInit {
     }
 
     this.selectionService.findCategories(this.topics).subscribe((e) => {
+      console.log(e);
       this.categories = e;
+      console.log(this.categories);
+      for (let selectedCategory of this.categories) {
+       console.log(selectedCategory.category);
+      }
     });
   }
 
   findProducts(): void {
-    this.selectionService.findProducts(this.categories, this.users[0].id).subscribe((e) => {
+    for (let selectedCategory of this.categories) {
+      this.categoriesForFind.push(selectedCategory.category)
+    }
+    this.selectionService.findProducts(this.categoriesForFind, this.users[0].id).subscribe((e) => {
       this.products = e;
       this.initialSize = this.products.length;
       this.refresh();

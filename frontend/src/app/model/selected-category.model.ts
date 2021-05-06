@@ -1,5 +1,6 @@
+import { CategoryModel } from './category.model';
+
 export interface SelectedCategoryModel {
-  id: string;
-  name: string;
+  category: CategoryModel;
   topics: string[];
 }

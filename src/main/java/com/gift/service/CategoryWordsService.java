@@ -51,8 +51,7 @@ public class CategoryWordsService {
             }
 
             if (!setTopics.isEmpty()){
-                selectedCategories.add(new SelectedCategory(category.getId(),
-                        category.getName(),
+                selectedCategories.add(new SelectedCategory(category,
                         new ArrayList<>(setTopics)));
                 newWords.removeAll(setTopics);
             }
@@ -64,7 +63,7 @@ public class CategoryWordsService {
 
         if (selectedCategories.isEmpty()) {
             Category category = categoriesRepo.findCategoriesById((long) 1);
-            selectedCategories.add(new SelectedCategory(category.getId(), category.getName(), new ArrayList<>(newWords)));
+            selectedCategories.add(new SelectedCategory(category, new ArrayList<>(newWords)));
         }
 
         return selectedCategories;

@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
     } else {
       const uuid: string | null = this.currentUserService.getUuid();
 
-      this.url = "http://localhost:8080/oauth2/authorization/vk?" +
-        "redirect_uri=http://localhost:8000/login&uuid="+ uuid;
+      this.url = "https://search-gift-backend.herokuapp.com/oauth2/authorization/vk?" +
+        "redirect_uri=https://search-gift-frontend.herokuapp.com/login&uuid="+ uuid;
 
       if (typeof uuid === 'string') {
         localStorage.setItem('UUID', uuid);

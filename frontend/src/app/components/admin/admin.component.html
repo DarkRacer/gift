@@ -11,15 +11,45 @@
 <div *ngIf="selectionOption == typesOfOptions[1]" class="working-area">
   <cdk-virtual-scroll-viewport itemSize="100" class="word">
     <mat-selection-list #wordCategories [multiple]="false">
-      <mat-list-option *ngFor="let wordCategories of categoryWords" [value]="wordCategories" (click)="selectedWordCategories = wordCategories">
+      <mat-list-option *ngFor="let wordCategories of categoryWords" [value]="wordCategories" (click)="select(wordCategories)">
         {{wordCategories.word}}
         <mat-divider></mat-divider>
       </mat-list-option>
     </mat-selection-list>
   </cdk-virtual-scroll-viewport>
 
-  <div *ngIf="selectedWordCategories">
-    {{selectedWordCategories.word}}
+  <div *ngIf="selectedWordCategories" class="mapping">
+      <label class="word-label">{{selectedWordCategories.word}}</label>
+
+      <div class="selections">
+        <cdk-virtual-scroll-viewport itemSize="100" class="category">
+          <mat-selection-list #category [multiple]="false">
+            <mat-list-option *ngFor="let category of categoriesForSelection" [value]="category">
+              {{category.name}}
+            </mat-list-option>
+          </mat-selection-list>
+        </cdk-virtual-scroll-viewport>
+
+        <div class="buttons-add-delete">
+          <button mat-button class="button-add-delete" (click)="add(category.selectedOptions.selected)">
+            <mat-icon>navigate_next</mat-icon>
+          </button>
+          <button mat-button class="button-add-delete" (click)="delete(selectedCategory.selectedOptions.selected)">
+            <mat-icon>navigate_before</mat-icon>
+          </button>
+        </div>
+
+        <cdk-virtual-scroll-viewport itemSize="100" class="selected-category">
+          <mat-selection-list #selectedCategory [multiple]="false" >
+            <mat-list-option *ngFor="let selectedCategory of selectedCategories" [value]="selectedCategory">
+              {{selectedCategory.name}}
+            </mat-list-option>
+          </mat-selection-list>
+        </cdk-virtual-scroll-viewport>
+    </div>
+
+    <label class="error" *ngIf="false">Нельзя сохранить без категории</label>
+    <button mat-flat-button color="primary" class="button" (click)="save()">Сохранить</button>
   </div>
 </div>
 

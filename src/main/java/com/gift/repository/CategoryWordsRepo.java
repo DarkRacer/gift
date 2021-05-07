@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Maksim Shcherbakov
  */
-public interface CategoryWordsRepo extends JpaRepository<CategoryWord, String> {
+public interface CategoryWordsRepo extends JpaRepository<CategoryWord, Long> {
     @Query(value = "select * from gift.category_words", nativeQuery = true)
     List<CategoryWord> findAll ();
 
@@ -21,5 +21,13 @@ public interface CategoryWordsRepo extends JpaRepository<CategoryWord, String> {
 
     @Modifying
     @Query(value = "insert into gift.category_words (category_id, word) values (1, :word)", nativeQuery = true)
-    void save(@Param("word") String word);
+    void saveNew(@Param("word") String word);
+
+    List<CategoryWord> findCategoryWordsByWord(String word);
+
+    @Modifying
+    @Query(value = "insert into gift.category_words (category_id, word) values (:id, :word)", nativeQuery = true)
+    void save(@Param("id") Long id, @Param("word") String word);
+
+    CategoryWord findCategoryWordByCategory_IdAndWord(Long id, String word);
 }

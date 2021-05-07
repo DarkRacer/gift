@@ -5,6 +5,8 @@ import com.gift.repository.CategoriesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Service for the categories
  *
@@ -22,4 +24,6 @@ public class CategoriesService {
     public Category findById (Long id) {
         return categoriesRepo.findById(id).orElse(null);
     }
+
+    public List<Category> findAll () { return categoriesRepo.findAll();}
 }

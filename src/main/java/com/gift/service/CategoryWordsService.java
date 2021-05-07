@@ -10,6 +10,7 @@ import com.gift.repository.CategoryWordsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 /**
@@ -58,7 +59,7 @@ public class CategoryWordsService {
         }
 
         for (String newW : newWords) {
-            categoryWordsRepo.save(newW);
+            categoryWordsRepo.saveNew(newW);
         }
 
         if (selectedCategories.isEmpty()) {
@@ -72,7 +73,6 @@ public class CategoryWordsService {
     public List<WordCategories> findAll() {
         List<CategoryWord> categoryWords = categoryWordsRepo.findAll();
         List<WordCategories> wordCategoriesList = new ArrayList<>();
-
         for (CategoryWord categoryWord : categoryWords) {
             if (check(categoryWord, wordCategoriesList)) {
                 WordCategories wordCategories = new WordCategories();
@@ -83,7 +83,6 @@ public class CategoryWordsService {
                         categories.add(categoryWordCheck.getCategory());
                     }
                 }
-
                 wordCategories.setWord(categoryWord.getWord());
                 wordCategories.setCategories(categories);
                 wordCategoriesList.add(wordCategories);
@@ -103,5 +102,36 @@ public class CategoryWordsService {
         }
 
         return true;
+    }
+
+    @Transactional
+    public void save(WordCategories wordCategories) {
+        List<CategoryWord> categoryWords = categoryWordsRepo.findCategoryWordsByWord(wordCategories.getWord());
+        List<Category> categoriesForSave = new ArrayList<>(wordCategories.getCategories());
+
+        for (CategoryWord categoryWord : categoryWords) {
+            categoriesForSave.remove(categoryWord.getCategory());
+        }
+
+        for (Category category : categoriesForSave) {
+            categoryWordsRepo.save(category.getId(), wordCategories.getWord());
+        }
+
+        categoryWords = categoryWordsRepo.findCategoryWordsByWord(wordCategories.getWord());
+        if (categoryWords.size() != wordCategories.getCategories().size()) {
+            List<Category> categories = new ArrayList<>();
+
+            for (CategoryWord categoryWord : categoryWords) {
+                categories.add(categoryWord.getCategory());
+            }
+
+            for (Category category : wordCategories.getCategories())
+                categories.remove(category);
+
+            for (Category category : categories) {
+                categoryWordsRepo.deleteById(categoryWordsRepo.findCategoryWordByCategory_IdAndWord(category.getId(), wordCategories.getWord()).getId());
+            }
+        }
+
     }
 }

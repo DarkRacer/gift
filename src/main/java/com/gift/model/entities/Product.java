@@ -40,4 +40,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     @OneToOne(targetEntity = Category.class)
     private Category category;
+
+    @Column(name = "picture_url")
+    private String pictureUrl;
 }

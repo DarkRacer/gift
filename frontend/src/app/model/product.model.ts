@@ -3,5 +3,6 @@ export interface ProductModel {
   name: string;
   description: string;
   price: number;
+  pictureUrl: string;
   catalogUrl: string;
 }

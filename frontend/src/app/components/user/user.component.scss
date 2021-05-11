@@ -128,3 +128,19 @@ user-profile-icon-google {
 .selection-btn {
   margin-bottom: 16px;
 }
+
+.wish-card {
+  width: 280px;
+  height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.photo-product {
+  width: 100px;
+  height: 80px;
+  display: flex;
+  margin-left: 20%;
+  justify-content: center;
+}

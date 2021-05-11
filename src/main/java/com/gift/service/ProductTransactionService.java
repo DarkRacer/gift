@@ -67,15 +67,25 @@ public class ProductTransactionService {
             for (Transaction transaction : transactions) {
                 productId.addAll(productTransactionRepo.findProductTransactionsByTransaction(transaction.getId()));
             }
-            Set<Product> products = new HashSet<>();
-
-            for (Long id : productId) {
-                products.add(productRepo.findProductById(id));
-            }
-
-            return products;
+            return loadProducts(productId);
         }
         return null;
+    }
+
+    private Set<Product> loadProducts(List<Long> productId) {
+        Set<Product> products = new HashSet<>();
+
+        for (Long id : productId) {
+            products.add(productRepo.findProductById(id));
+        }
+
+        for (Product product : products) {
+            if (product.getDescription().length() > 30) {
+                product.setDescription(product.getDescription().substring(0, 30));
+                product.setDescription(product.getDescription().concat("..."));
+            }
+        }
+        return products;
     }
 
     public List<SelectionsHistory> getHistory(Long userId) {
@@ -87,14 +97,9 @@ public class ProductTransactionService {
             if(!transaction.isWish()) {
                 ResponseUserGet responseUserGet = vk.findUserId(transaction.getRecipient()).getResponse()[0];
                 List<Long> productId = productTransactionRepo.findProductTransactionsByTransaction(transaction.getId());
-                Set<Product> products = new HashSet<>();
-
-                for (Long id : productId) {
-                    products.add(productRepo.findProductById(id));
-                }
 
                 selectionsHistories.add(new SelectionsHistory(transaction.getId(), responseUserGet.getFirst_name() + " "
-                        + responseUserGet.getLast_name(), transaction.getRecipient(), responseUserGet.getPhoto_100(), products));
+                        + responseUserGet.getLast_name(), transaction.getRecipient(), responseUserGet.getPhoto_100(), loadProducts(productId)));
             }
         }
 

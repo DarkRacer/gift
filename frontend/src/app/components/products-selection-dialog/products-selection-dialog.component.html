@@ -7,7 +7,14 @@
           <mat-card-title class="gift-card-title">
             <a [href]="product.name" class="url"> {{product.name}} </a>
           </mat-card-title>
-          <mat-card-content>{{product.description}}</mat-card-content>
+          <mat-card-content>
+            <ng-container *ngIf="product.pictureUrl">
+              <img
+                [src]="product.pictureUrl"
+                class="photo-product"
+              />
+            </ng-container>
+            {{product.description}}</mat-card-content>
           <mat-card-footer class="gift-card-price">Цена: {{product.price}} р.</mat-card-footer>
           <mat-card-actions>
             <button mat-flat-button color="primary" (click)="deleteProduct(product)" class="btn btn-small">Убрать</button>

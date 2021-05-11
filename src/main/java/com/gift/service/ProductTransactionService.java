@@ -80,9 +80,11 @@ public class ProductTransactionService {
         }
 
         for (Product product : products) {
-            if (product.getDescription().length() > 30) {
-                product.setDescription(product.getDescription().substring(0, 30));
-                product.setDescription(product.getDescription().concat("..."));
+            if (product.getDescription() != null) {
+                if (product.getDescription().length() > 30) {
+                    product.setDescription(product.getDescription().substring(0, 30));
+                    product.setDescription(product.getDescription().concat("..."));
+                }
             }
         }
         return products;

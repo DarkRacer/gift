@@ -22,7 +22,8 @@
 }
 .word-label {
   font-size: 20px;
-  font-style: italic;
+  font-style: normal;
+  font-weight: bolder;
   margin-left: 45%;
 }
 .category {
@@ -57,5 +58,16 @@
   margin-left: 15%;
 }
 .button-add-delete {
+  margin-top: 2%;
+}
+
+.cell-selection {
+  width: 300px;
+  text-align: center;
+}
+
+.photo-user {
+  width: 50px;
+  height: 50px;
   margin-top: 2%;
 }

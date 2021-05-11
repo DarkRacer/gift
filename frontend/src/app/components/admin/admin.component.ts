@@ -3,6 +3,10 @@ import { AdminService } from '../../services/admin.service';
 import { CategoryWordsModel } from '../../model/category-words.model';
 import { CategoryModel } from '../../model/category.model';
 import { MatListOption } from '@angular/material/list';
+import { UserAndRoleModel } from '../../model/user-and-role.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
+import { UserRole } from '../../model/user-role.model';
 
 @Component({
   selector: 'app-admin',
@@ -18,6 +22,9 @@ export class AdminComponent implements OnInit {
   selectedWordCategories: CategoryWordsModel | undefined;
   selectedCategories: CategoryModel[] = [];
   categoriesForSelection: CategoryModel[] = [];
+  users: UserAndRoleModel[] = [];
+  columns = ['id', 'picture', 'name', 'function'];
+  userAndRoleModelSelectionModel = new SelectionModel<UserAndRoleModel>(true, []);
 
   constructor(private readonly adminService: AdminService) { }
 
@@ -31,8 +38,13 @@ export class AdminComponent implements OnInit {
     })
 
     this.adminService.findAllCategory().subscribe(e => {
-      console.log(e);
       this.categories = e;
+    })
+
+    this.adminService.findAllUser().subscribe(e => {
+      console.log(e);
+      this.users = e;
+      console.log(this.users);
     })
   }
 
@@ -65,7 +77,28 @@ export class AdminComponent implements OnInit {
     this.selectedWordCategories?.categories = this.selectedCategories;
 
     this.adminService.save(this.selectedWordCategories).subscribe(e => {
-      window.location.reload();
-    })
+
+    });
+  }
+
+  _user(row: any): UserAndRoleModel {
+    return row as UserAndRoleModel;
+  }
+
+  selectUser(userAndRoleModel: UserAndRoleModel, isSelect: boolean) {
+    if (userAndRoleModel.role.indexOf(UserRole.ADMIN) == -1) {
+      this.adminService.saveAdmin(userAndRoleModel).subscribe(e => {
+        window.location.reload();
+      });
+    } else {
+      this.adminService.deleteAdmin(userAndRoleModel).subscribe(e => {
+        window.location.reload();
+      });
+    }
+
+  }
+
+  admin(row : UserAndRoleModel) {
+    return row.role.indexOf(UserRole.ADMIN) != -1;
   }
 }

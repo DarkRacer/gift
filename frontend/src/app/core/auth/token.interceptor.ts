@@ -9,7 +9,6 @@ export class TokenDemoInterceptor implements HttpInterceptor {
   constructor(private readonly currentUserService: CurrentUserService) {}
 
   intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log('intercepted');
     return this.currentUserService.user$.pipe(
       first(),
       switchMap(() => {

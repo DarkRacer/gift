@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {first} from "rxjs/operators";
 import { CurrentUserService } from '../auth/current-user.service';
 import { UserRole } from '../../model/user-role.model';
+import { AdminService } from '../../services/admin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { UserRole } from '../../model/user-role.model';
 export class AuthGuardGuard implements CanActivate {
 
   constructor(private router: Router,
-              private readonly currentUserService: CurrentUserService) { }
+              private readonly adminService: AdminService) { }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -21,7 +22,7 @@ export class AuthGuardGuard implements CanActivate {
 
     if (localStorage.getItem('auth_token')) {
       if (roles != undefined && roles.indexOf(UserRole.ADMIN) != -1) {
-        this.currentUserService.getRoles(localStorage.getItem('user_id')).subscribe(userRole => {
+        this.adminService.getRoles(localStorage.getItem('user_id')).subscribe(userRole => {
           if (userRole.indexOf(UserRole.ADMIN) != -1) {
             return true;
           } else {

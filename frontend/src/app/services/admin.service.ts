@@ -19,7 +19,6 @@ export class AdminService {
     return this.http.get(`api/categories/category/all`);
   }
 
-
   save(selectedWordCategories: CategoryWordsModel | undefined) : Observable<any> {
     return this.http.post(`api/categories/save`, selectedWordCategories);
   }
@@ -34,5 +33,9 @@ export class AdminService {
 
   deleteAdmin(userAndRoleModel: UserAndRoleModel) {
     return this.http.post(`api/user/deleteAdmin`, userAndRoleModel);
+  }
+
+  getRoles(id: string | null): Observable<any> {
+    return this.http.get(`api/user/roles/${id}`);
   }
 }

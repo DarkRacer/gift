@@ -73,8 +73,4 @@ export class CurrentUserService {
     req.send(null);
     return req.getResponseHeader("Uuid");
   }
-
-  getRoles(id: string | null): Observable<any> {
-    return this.http.get(`api/user/roles/${id}`);
-  }
 }

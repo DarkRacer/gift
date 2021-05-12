@@ -61,4 +61,16 @@ public class UsersService {
         user.setRoles(roles);
         userRepository.save(user);
     }
+
+    @Transactional
+    public List<String> getRoles(Long id) {
+        Users users = userRepository.findUsersById(id);
+        List<String> roles = new ArrayList<>();
+
+        for (Role role : users.getRoles()){
+            roles.add(role.getName());
+        }
+
+        return roles;
+    }
 }

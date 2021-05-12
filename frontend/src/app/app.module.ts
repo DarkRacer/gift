@@ -32,9 +32,10 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import { ProductsSelectionDialogComponent } from './components/products-selection-dialog/products-selection-dialog.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { ForbiddenComponent } from './components/exception/forbidden/forbidden.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent],
+  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

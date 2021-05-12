@@ -52,4 +52,11 @@ public class UsersController {
 
         usersService.deleteAdmin(objectMapper.readValue(userAndRole, UserAndRole.class));
     }
+
+    @GetMapping("/roles/{id}")
+    public String getRoles (@PathVariable("id") Long id) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        return objectMapper.writeValueAsString(usersService.getRoles(id));
+    }
 }

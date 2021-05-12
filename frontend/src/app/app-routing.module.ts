@@ -5,6 +5,8 @@ import {UserComponent} from "./components/user/user.component";
 import {LoginComponent} from "./components/login/login.component";
 import {AuthGuardGuard} from "./core/guard/auth-guard.guard";
 import { AdminComponent } from './components/admin/admin.component';
+import { UserRole } from './model/user-role.model';
+import { ForbiddenComponent } from './components/exception/forbidden/forbidden.component';
 
 const routes: Routes = [
   {
@@ -24,7 +26,12 @@ const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
-    canActivate: [AuthGuardGuard]
+    canActivate: [AuthGuardGuard],
+    data: {roles: [UserRole.ADMIN]}
+  },
+  {
+    path: 'forbidden',
+    component: ForbiddenComponent
   }
 ];
 

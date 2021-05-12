@@ -10,4 +10,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CategoriesRepo extends JpaRepository<Category, Long> {
     Category findCategoriesById(Long id);
+
+    Category findCategoriesByName(String name);
 }

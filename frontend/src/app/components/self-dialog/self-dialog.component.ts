@@ -4,6 +4,8 @@ import { SelectionService } from '../../services/selection.service';
 import { AssortmentModel } from '../../model/assortment.model';
 import { ProductModel } from '../../model/product.model';
 import { SelectionModel } from '@angular/cdk/collections';
+import { CategoryModel } from '../../model/category.model';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-self-dialog',
@@ -11,9 +13,11 @@ import { SelectionModel } from '@angular/cdk/collections';
   styleUrls: ['./self-dialog.component.scss']
 })
 export class SelfDialogComponent implements OnInit {
-  assortments: AssortmentModel[] = [];
+  categories: CategoryModel[] = [];
+  categoryCtrl = new FormControl();
   columns = ['name', 'price', 'function'];
   selection = new SelectionModel<ProductModel>(true, []);
+  products: ProductModel[] = [];
 
   constructor(
     private readonly selectionService: SelectionService,
@@ -21,12 +25,18 @@ export class SelfDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.selectionService.selectSelf(this.data).subscribe((e) => {
-      this.assortments = e;
+    this.selectionService.findAllCategory().subscribe((e) => {
+      this.categories = e;
     });
   }
 
   _product(row: any): ProductModel {
     return row as ProductModel;
+  }
+
+  findProduct() {
+    this.selectionService.findProduct(this.categoryCtrl.value).subscribe(e => {
+      this.products = e;
+    })
   }
 }

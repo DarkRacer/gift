@@ -1,7 +1,9 @@
 package com.gift.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gift.model.entities.Product;
 import com.gift.model.projections.GiftCriteria;
 import com.gift.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Controller for the products
@@ -32,4 +36,11 @@ public class ProductController {
     public String findProduct (@RequestBody String giftCriteria) throws JsonProcessingException {
         return objectMapper.writeValueAsString(productService.findProduct(objectMapper.readValue(giftCriteria, GiftCriteria.class)));
     }
+
+    @PostMapping("/findByCategories")
+    public String findByCategories (@RequestBody String categoriesName) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(productService.findByCategories(objectMapper.readValue(categoriesName, new TypeReference<List<String>>() {})));
+    }
+
+
 }

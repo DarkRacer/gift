@@ -23,6 +23,10 @@ export class SelectionService {
     return this.http.post(`api/categories/find`, topics);
   }
 
+  findAllCategory () : Observable<any> {
+    return this.http.get(`api/categories/category/all`);
+  }
+
   findProducts(categories: CategoryModel[], userId: number): Observable<any> {
     const body = {categories, userId};
     return this.http.post(`api/products/find`, body);
@@ -37,8 +41,8 @@ export class SelectionService {
     return this.http.get(`api/oauth2/authorization/vk`);
   }
 
-  selectSelf(products: ProductModel[]): Observable<any> {
-    return this.http.post(`api/gifts/self`, products);
+  selectCategories(): Observable<any> {
+    return this.http.get(`api/gifts/self/categories`);
   }
 
   loadWish(userId: number): Observable<any> {
@@ -69,7 +73,7 @@ export class SelectionService {
     return this.http.post(`api/transaction/selectionsHistory/save`, body);
   }
 
-  getSid(body: string): Observable<any> {
-    return this.http.post(`api/auth/sid`, body);
+  findProduct(categories: any): Observable<any> {
+    return this.http.post(`api/products/findByCategories`, categories);
   }
 }

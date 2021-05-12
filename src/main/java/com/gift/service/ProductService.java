@@ -6,6 +6,7 @@ import com.gift.model.entities.Transaction;
 import com.gift.model.entities.Users;
 import com.gift.model.projections.Count;
 import com.gift.model.projections.GiftCriteria;
+import com.gift.repository.CategoriesRepo;
 import com.gift.repository.ProductRepo;
 import com.gift.repository.ProductTransactionRepo;
 import com.gift.repository.TransactionRepo;
@@ -17,11 +18,9 @@ import javax.transaction.Transactional;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Service for the products
@@ -34,13 +33,15 @@ public class ProductService {
     private final ProductTransactionRepo productTransactionRepo;
     private final UserRepository userRepository;
     private final TransactionRepo transactionRepo;
+    private final CategoriesRepo categoriesRepo;
 
     @Autowired
-    public ProductService(ProductRepo productRepo, ProductTransactionRepo productTransactionRepo, UserRepository userRepository, TransactionRepo transactionRepo) {
+    public ProductService(ProductRepo productRepo, ProductTransactionRepo productTransactionRepo, UserRepository userRepository, TransactionRepo transactionRepo, CategoriesRepo categoriesRepo) {
         this.productRepo = productRepo;
         this.productTransactionRepo = productTransactionRepo;
         this.userRepository = userRepository;
         this.transactionRepo = transactionRepo;
+        this.categoriesRepo = categoriesRepo;
     }
 
     @javax.transaction.Transactional
@@ -107,5 +108,24 @@ public class ProductService {
         }
 
         return resultProducts;
+    }
+
+    public List<Product> findByCategories(List<String> categoriesName) {
+        List<Category> categories = new ArrayList<>();
+        List<Product> products = new ArrayList<>();
+
+        System.out.println(categoriesName);
+
+        for (String categoryName : categoriesName) {
+            categories.add(categoriesRepo.findCategoriesByName(categoryName));
+        }
+
+        for (Category category : categories) {
+            if (category != null) {
+                products.addAll(productRepo.findByCategory(category.getId()));
+            }
+        }
+
+        return products;
     }
 }

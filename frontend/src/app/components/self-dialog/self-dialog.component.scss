@@ -1,7 +1,11 @@
-.table {
-  width: 100%;
+.table-self {
+  min-width: 700px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-bottom: 30px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .cell {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SelectionService } from '../../services/selection.service';
 import { AssortmentModel } from '../../model/assortment.model';
@@ -6,7 +6,7 @@ import { ProductModel } from '../../model/product.model';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CategoryModel } from '../../model/category.model';
 import { FormControl } from '@angular/forms';
-
+import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-self-dialog',
   templateUrl: './self-dialog.component.html',
@@ -18,7 +18,10 @@ export class SelfDialogComponent implements OnInit {
   columns = ['name', 'price', 'function'];
   selection = new SelectionModel<ProductModel>(true, []);
   products: ProductModel[] = [];
+  resultsLength = 0;
+  pageSize = 5;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
   constructor(
     private readonly selectionService: SelectionService,
     @Inject(MAT_DIALOG_DATA) public data: ProductModel[]
@@ -37,6 +40,7 @@ export class SelfDialogComponent implements OnInit {
   findProduct() {
     this.selectionService.findProduct(this.categoryCtrl.value).subscribe(e => {
       this.products = e;
+      this.resultsLength = this.products.length;
     })
   }
 }

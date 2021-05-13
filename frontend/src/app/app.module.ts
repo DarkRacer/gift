@@ -33,6 +33,7 @@ import { ProductsSelectionDialogComponent } from './components/products-selectio
 import { AdminComponent } from './components/admin/admin.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ForbiddenComponent } from './components/exception/forbidden/forbidden.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent],
@@ -63,7 +64,8 @@ import { ForbiddenComponent } from './components/exception/forbidden/forbidden.c
     CoreModule,
     MatMenuModule,
     MatGridListModule,
-    ScrollingModule
+    ScrollingModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent],

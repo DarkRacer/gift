@@ -42,9 +42,7 @@ export class AdminComponent implements OnInit {
     })
 
     this.adminService.findAllUser().subscribe(e => {
-      console.log(e);
       this.users = e;
-      console.log(this.users);
     })
   }
 

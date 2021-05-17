@@ -141,7 +141,7 @@ user-profile-icon-google {
   width: 100px;
   height: 80px;
   display: flex;
-  margin-left: 20%;
+  margin-bottom: 5%;
   justify-content: center;
 }
 
@@ -150,3 +150,14 @@ user-profile-icon-google {
   height: 300px;
 }
 
+.wish-card-title {
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.wish-card-text {
+  text-align: center;
+  line-height: 1.3;
+}

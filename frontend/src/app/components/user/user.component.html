@@ -74,8 +74,9 @@
                     class="photo-product"
                   />
                 </ng-container>
-                {{wishProduct.description}}</mat-card-content>
-              <mat-card-footer>Цена: {{wishProduct.price}} р.</mat-card-footer>
+              </mat-card-content>
+              <mat-card-content class="wish-card-text">{{wishProduct.description}}</mat-card-content>
+              <mat-card-content>Цена: {{wishProduct.price}} р.</mat-card-content>
               <mat-card-actions>
                 <button mat-flat-button color="primary" (click)="deleteWish(wishProduct)">Убрать</button>
               </mat-card-actions>

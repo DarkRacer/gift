@@ -46,7 +46,7 @@
 <div *ngIf="selectionOption == typesOfOptions[1]" class="working-area">
   <cdk-virtual-scroll-viewport itemSize="100" class="word">
     <mat-selection-list #wordCategories [multiple]="false">
-      <mat-list-option *ngFor="let wordCategories of categoryWords" [value]="wordCategories" (click)="select(wordCategories)">
+      <mat-list-option *ngFor="let wordCategories of categoryWords" [value]="wordCategories" (click)="select(wordCategories)" >
         {{wordCategories.word}}
         <mat-divider></mat-divider>
       </mat-list-option>
@@ -58,7 +58,7 @@
 
       <div class="selections">
         <cdk-virtual-scroll-viewport itemSize="200" class="category">
-          <mat-selection-list #category [multiple]="false">
+          <mat-selection-list #category [multiple]="false" class="option">
             <mat-list-option *ngFor="let category of categoriesForSelection" [value]="category">
               {{category.name}}
             </mat-list-option>

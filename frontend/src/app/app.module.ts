@@ -34,9 +34,10 @@ import { AdminComponent } from './components/admin/admin.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ForbiddenComponent } from './components/exception/forbidden/forbidden.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent],
+  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent, HomePageComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

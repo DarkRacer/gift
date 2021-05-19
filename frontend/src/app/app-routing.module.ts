@@ -7,6 +7,7 @@ import {AuthGuardGuard} from "./core/guard/auth-guard.guard";
 import { AdminComponent } from './components/admin/admin.component';
 import { UserRole } from './model/user-role.model';
 import { ForbiddenComponent } from './components/exception/forbidden/forbidden.component';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'forbidden',
     component: ForbiddenComponent
+  },
+  {
+    path: '',
+    component: HomePageComponent
   }
 ];
 

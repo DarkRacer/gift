@@ -3,8 +3,8 @@ import {SelectionService} from "./services/selection.service";
 import {AnonymousUserImpl, CurrentUserService} from "./core/auth/current-user.service";
 import {Router} from "@angular/router";
 import {ExistingUser} from "./model/existing-user.model";
-import {BehaviorSubject} from "rxjs";
-import {CurrentUser} from "./core/auth/current-user.model";
+import { UserRole } from './model/user-role.model';
+import { AdminService } from './services/admin.service';
 
 @Component({
   selector: 'app-root',
@@ -16,12 +16,14 @@ export class AppComponent implements OnInit {
   // @ts-ignore
   user: ExistingUser;
   isLoggedIn = false;
+  isAdmin = false;
   title = 'Gift';
 
   constructor(
     private readonly selectionService: SelectionService,
     private readonly router: Router,
-    private readonly currentUserService: CurrentUserService
+    private readonly currentUserService: CurrentUserService,
+    private readonly adminService: AdminService
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +32,12 @@ export class AppComponent implements OnInit {
         if (this.isLoggedIn) {
           // @ts-ignore
           this.user = this.user$.getValue();
+
+          this.adminService.getRoles(localStorage.getItem('user_id')).subscribe(userRole => {
+            if (userRole.indexOf(UserRole.ADMIN) != -1) {
+              this.isAdmin = true;
+            }
+          })
         }
     }
 

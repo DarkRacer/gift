@@ -46,7 +46,7 @@
 <div *ngIf="selectionOption == typesOfOptions[1]" class="working-area">
   <cdk-virtual-scroll-viewport itemSize="100" class="word">
     <mat-selection-list #wordCategories [multiple]="false">
-      <mat-list-option *ngFor="let wordCategories of categoryWords" [value]="wordCategories" (click)="select(wordCategories)" >
+      <mat-list-option *ngFor="let wordCategories of categoryWords" [value]="wordCategories" (click)="select(wordCategories)">
         {{wordCategories.word}}
         <mat-divider></mat-divider>
       </mat-list-option>
@@ -55,11 +55,15 @@
 
   <div *ngIf="selectedWordCategories" class="mapping">
       <label class="word-label">{{selectedWordCategories.word}}</label>
+      <div class="description">
+        <label class="all">Все категории</label>
+        <label class="selected">Категории слова</label>
+      </div>
 
       <div class="selections">
-        <cdk-virtual-scroll-viewport itemSize="200" class="category">
-          <mat-selection-list #category [multiple]="false" class="option">
-            <mat-list-option *ngFor="let category of categoriesForSelection" [value]="category">
+        <cdk-virtual-scroll-viewport itemSize="250" class="category">
+          <mat-selection-list #category [multiple]="false">
+            <mat-list-option *ngFor="let category of categoriesForSelection" [value]="category" class="option">
               {{category.name}}
             </mat-list-option>
           </mat-selection-list>
@@ -74,9 +78,9 @@
           </button>
         </div>
 
-        <cdk-virtual-scroll-viewport itemSize="200" class="selected-category">
-          <mat-selection-list #selectedCategory [multiple]="false" >
-            <mat-list-option *ngFor="let selectedCategory of selectedCategories" [value]="selectedCategory">
+        <cdk-virtual-scroll-viewport itemSize="250" class="selected-category">
+          <mat-selection-list #selectedCategory [multiple]="false">
+            <mat-list-option *ngFor="let selectedCategory of selectedCategories" [value]="selectedCategory" class="option">
               {{selectedCategory.name}}
             </mat-list-option>
           </mat-selection-list>

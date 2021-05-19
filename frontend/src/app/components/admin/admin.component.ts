@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
 import { CategoryWordsModel } from '../../model/category-words.model';
 import { CategoryModel } from '../../model/category.model';
-import { MatListOption } from '@angular/material/list';
+import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { UserAndRoleModel } from '../../model/user-and-role.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';

@@ -29,6 +29,7 @@ public class CategoryWordsService {
         this.categoriesRepo = categoriesRepo;
     }
 
+    @Transactional
     public Set<SelectedCategory> findCategories (String[] topics) {
         List<Category> categories = categoriesRepo.findAll();
         Set<SelectedCategory> selectedCategories = new HashSet<>();

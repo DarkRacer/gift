@@ -50,6 +50,14 @@ public class ProductTransactionService {
             transaction.setWish(true);
         }
 
+        List<Transaction> transactions = transactionRepo.findTransactionsBySender(transaction.getSender().getId());
+
+        for (Transaction transactionFind : transactions) {
+            if (Objects.equals(transactionFind.getRecipient(), transaction.getRecipient())) {
+                transaction = transactionFind;
+            }
+        }
+
         transactionRepo.save(transaction);
 
         Set<Product> products = new HashSet<>(Arrays.asList(choice.getProducts()));

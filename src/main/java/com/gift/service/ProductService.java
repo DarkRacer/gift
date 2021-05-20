@@ -114,8 +114,6 @@ public class ProductService {
         List<Category> categories = new ArrayList<>();
         List<Product> products = new ArrayList<>();
 
-        System.out.println(categoriesName);
-
         for (String categoryName : categoriesName) {
             categories.add(categoriesRepo.findCategoriesByName(categoryName));
         }

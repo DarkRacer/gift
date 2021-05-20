@@ -35,6 +35,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { ForbiddenComponent } from './components/exception/forbidden/forbidden.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent, HomePageComponent],
@@ -66,7 +67,8 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     MatMenuModule,
     MatGridListModule,
     ScrollingModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -88,12 +88,7 @@ export class SelectionComponent implements OnInit {
     }
 
     this.selectionService.findCategories(this.topics).subscribe((e) => {
-      console.log(e);
       this.categories = e;
-      console.log(this.categories);
-      for (let selectedCategory of this.categories) {
-       console.log(selectedCategory.category);
-      }
     });
   }
 

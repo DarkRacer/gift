@@ -1,24 +1,40 @@
-<mat-form-field appearance="fill">
-  <mat-label>Категории</mat-label>
-  <mat-select [formControl]="categoryCtrl" multiple>
-    <mat-select-trigger>
-      {{categoryCtrl.value ? categoryCtrl.value[0]: ''}}
-      <span *ngIf="categoryCtrl.value?.length > 1" class="additional-selection">
-        (+{{categoryCtrl.value.length - 1}} {{categoryCtrl.value?.length === 2 ? 'other' : 'others'}})
-      </span>
-    </mat-select-trigger>
-    <mat-option *ngFor="let category of categories" [value]="category.name">{{category.name}}</mat-option>
-  </mat-select>
-</mat-form-field>
+<form class="form-selection">
+  <mat-form-field class="mat-form-selection">
+    <mat-label>Категория</mat-label>
+    <input type="text"
+           placeholder="Выберите категорию"
+           aria-label="Категория"
+           matInput
+           [formControl]="categoryCtrl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredCategories | async" [value]="option.name" (onSelectionChange)="updateSelection($event)">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
 
-<button mat-flat-button color="primary" (click)="findProduct()">Найти</button>
+<span class="text" *ngIf="categoriesSelection.length > 0">Выбранные категории</span>
+<cdk-virtual-scroll-viewport itemSize="250" class="category-scroll" *ngIf="categoriesSelection.length > 0">
+  <mat-selection-list #category [multiple]="false">
+    <mat-list-option *ngFor="let category of categoriesSelection" [value]="category" class="selected-option">
+      {{category}}
+    </mat-list-option>
+  </mat-selection-list>
+</cdk-virtual-scroll-viewport>
+
+<div class="find">
+  <button mat-flat-button (click)="findProduct()" *ngIf="categoriesSelection.length > 0"
+          class="btn btn-small btn-find">Найти</button>
+</div>
     <table
       mat-table
       [dataSource]="dataSource"
-      class="table table-self"
+      class="table-self"
       *ngIf="products.length > 0"
     >
-      <ng-container matColumnDef="name">
+      <ng-container matColumnDef="name" class="table-blocks">
         <th *matHeaderCellDef mat-header-cell class="cell">Название</th>
         <td *matCellDef="let row" mat-cell class="cell">{{ _product(row).name }}</td>
       </ng-container>

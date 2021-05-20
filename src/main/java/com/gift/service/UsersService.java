@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UsersService {
@@ -31,8 +32,9 @@ public class UsersService {
     }
 
     @Transactional
-    public List<UserAndRole> getAll() {
+    public List<UserAndRole> getAll(Long id) {
         List<Users> users = userRepository.findAll();
+        users.removeIf(user -> Objects.equals(user.getId(), id));
         List<UserAndRole> userAndRoles = new ArrayList<>();
         List<String> roles = new ArrayList<>();
 

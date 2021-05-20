@@ -23,8 +23,8 @@ export class AdminService {
     return this.http.post(`api/categories/save`, selectedWordCategories);
   }
 
-  findAllUser() : Observable<any> {
-    return this.http.get(`api/user/all`);
+  findAllUser(id: string | null) : Observable<any> {
+    return this.http.get(`api/user/all/${id}`);
   }
 
   saveAdmin(userAndRoleModel: UserAndRoleModel) {

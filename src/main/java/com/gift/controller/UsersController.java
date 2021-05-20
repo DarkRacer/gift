@@ -31,9 +31,9 @@ public class UsersController {
         return objectMapper.writeValueAsString(usersService.getInfo(id));
     }
 
-    @GetMapping("/all")
-    public String getAll () throws JsonProcessingException {
-        return objectMapper.writeValueAsString(usersService.getAll());
+    @GetMapping("/all/{id}")
+    public String getAll (@PathVariable("id") Long id) throws JsonProcessingException {
+        return objectMapper.writeValueAsString(usersService.getAll(id));
     }
 
     @PostMapping("/saveAdmin")

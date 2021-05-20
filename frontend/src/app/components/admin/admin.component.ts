@@ -41,7 +41,7 @@ export class AdminComponent implements OnInit {
       this.categories = e;
     })
 
-    this.adminService.findAllUser().subscribe(e => {
+    this.adminService.findAllUser(localStorage.getItem('user_id')).subscribe(e => {
       this.users = e;
     })
   }

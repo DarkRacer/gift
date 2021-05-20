@@ -14,7 +14,7 @@
 <button mat-flat-button color="primary" (click)="findProduct()">Найти</button>
     <table
       mat-table
-      [dataSource]="products"
+      [dataSource]="dataSource"
       class="table table-self"
       *ngIf="products.length > 0"
     >
@@ -38,4 +38,5 @@
       <tr *matHeaderRowDef="columns" mat-header-row></tr>
       <tr *matRowDef="let row; columns: columns" mat-row></tr>
     </table>
-<mat-paginator *ngIf="products.length > 0" [length]="resultsLength" [pageSize]="pageSize"></mat-paginator>
+<mat-paginator #paginator *ngIf="products.length > 0" [length]="resultsLength" [pageSize]="5"
+               [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

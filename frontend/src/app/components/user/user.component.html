@@ -16,43 +16,37 @@
           <ng-container *ngIf="!users[0].picture">
             <mat-icon class="user-icon">account_circle</mat-icon>
           </ng-container>
-          <div class="user-profile-form">
+          <form [formGroup]="userGroup" class="user-profile-form">
             <div>
               <mat-form-field appearance="fill">
                 <mat-label>Имя</mat-label>
-                <input matInput value="{{users[0].firstName}}">
+                <input matInput formControlName="userFirstName" type="text">
               </mat-form-field>
             </div>
 
             <div class="user-form">
               <mat-form-field appearance="fill">
                 <mat-label>Фамилия</mat-label>
-                <input matInput value="{{users[0].lastName}}">
+                <input matInput formControlName="userLastName" type="text">
               </mat-form-field>
             </div>
 
             <div>
               <mat-form-field appearance="fill">
                 <mat-label>Email</mat-label>
-                <input matInput *ngIf="users[0].email!==null" value="{{users[0].email}}">
-                <input matInput *ngIf="users[0].email==null">
+                <input matInput formControlName="userEmail" type="email">
               </mat-form-field>
             </div>
-          </div> <!--user-profile-personal-->
+          </form> <!--user-profile-personal-->
         </div> <!--user-profile-form-->
         <div *ngIf="users[0].provider=='vk'" class="user-profile-sm">
           <label class="user-profile-label">Вход выполнен с помощью</label>
           <img alt="Vk" src="/assets/img/vkontakte.png" class="user-profile-icon-vk">
         </div>
 
-        <div *ngIf="users[0].provider=='google'" class="user-profile-sm">
-          <label>Вход выполнен с помощью</label>
-          <img alt="Google" src="/assets/img/google.png" class="user-profile-icon-google">
-        </div>
-
       </mat-card-content>
       <mat-card-actions class="btn-actions">
-        <button mat-flat-button color="primary" class="btn btn-small btn-save" >Сохранить</button>
+        <button mat-flat-button color="primary" class="btn btn-small btn-save" [disabled]="!userGroup.valid" (click)="saveUser()">Сохранить</button>
       </mat-card-actions>
     </mat-card>
   </div>

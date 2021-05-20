@@ -3,6 +3,7 @@ package com.gift.service;
 import com.gift.model.entities.Role;
 import com.gift.model.entities.Users;
 import com.gift.model.projections.UserAndRole;
+import com.gift.model.projections.UserForSave;
 import com.gift.repository.RoleRepository;
 import com.gift.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,16 @@ public class UsersService {
         }
 
         return roles;
+    }
+
+    @Transactional
+    public void saveUser(UserForSave userForSave) {
+        Users users = userRepository.findUsersById(userForSave.getId());
+
+        users.setFirstName(userForSave.getFirstName());
+        users.setLastName(userForSave.getLastName());
+        users.setEmail(userForSave.getEmail());
+
+        userRepository.save(users);
     }
 }

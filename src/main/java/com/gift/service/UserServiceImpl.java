@@ -100,8 +100,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	private Users updateExistingUser(Users existingUser, OAuth2UserInfo oAuth2UserInfo) {
-		existingUser.setFirstName(oAuth2UserInfo.getName().substring(0, oAuth2UserInfo.getName().indexOf(" ")));
-		existingUser.setLastName(oAuth2UserInfo.getName().substring(oAuth2UserInfo.getName().indexOf(" ")));
 		existingUser.setPicture(oAuth2UserInfo.getImage());
 		return userRepository.save(existingUser);
 	}

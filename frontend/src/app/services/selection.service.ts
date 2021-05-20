@@ -76,4 +76,9 @@ export class SelectionService {
   findProduct(categories: any): Observable<any> {
     return this.http.post(`api/products/findByCategories`, categories);
   }
+
+  saveUser(id: number, firstName: string, lastName:string, email: string) {
+    const body = {id, firstName, lastName, email};
+    return this.http.post(`api/user/save`, body);
+  }
 }

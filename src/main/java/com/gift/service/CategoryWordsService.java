@@ -108,7 +108,7 @@ public class CategoryWordsService {
     @Transactional
     public void save(WordCategories wordCategories) {
         List<CategoryWord> categoryWords = categoryWordsRepo.findCategoryWordsByWord(wordCategories.getWord());
-        List<Category> categoriesForSave = new ArrayList<>(wordCategories.getCategories());
+        Set<Category> categoriesForSave = new HashSet<>(wordCategories.getCategories());
 
         for (CategoryWord categoryWord : categoryWords) {
             categoriesForSave.remove(categoryWord.getCategory());

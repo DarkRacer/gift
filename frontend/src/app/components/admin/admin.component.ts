@@ -15,7 +15,7 @@ import { UserRole } from '../../model/user-role.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminComponent implements OnInit {
-  typesOfOptions: string[] = ['Управление ролями', 'Управление ключевыми словами', 'Управление предложениями'];
+  typesOfOptions: string[] = ['Управление ролями', 'Управление ключевыми словами'];
   selectionOption: string = "";
   categoryWords: CategoryWordsModel[] = [];
   categories: CategoryModel[] = [];

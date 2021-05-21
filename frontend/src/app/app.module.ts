@@ -37,9 +37,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SelectionErrorComponent } from './components/exception/selection-error/selection-error.component';
 
 @NgModule({
-  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent, HomePageComponent],
+  declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent, HomePageComponent, SelectionErrorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

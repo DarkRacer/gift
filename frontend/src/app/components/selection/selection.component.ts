@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import {ExistingUser} from "../../model/existing-user.model";
 import {CurrentUserService} from "../../core/auth/current-user.service";
 import { CategoryModel } from '../../model/category.model';
+import { SelectionErrorComponent } from '../exception/selection-error/selection-error.component';
 
 @Component({
   selector: 'app-selection',
@@ -61,11 +62,17 @@ export class SelectionComponent implements OnInit {
     this.selectionService
       .findGroups(this.userUrlGroup.controls.userUrlCtrl.value)
       .subscribe((e) => {
-        console.log("groups");
-        console.log(e);
         this.groups = e;
-        console.log(this.groups);
-      });
+      },
+        (error) => {
+        console.log(error)
+          const dialogRef = this.dialog.open(SelectionErrorComponent, {
+            width: '30%',
+            height: '20%',
+          });
+
+          dialogRef.afterClosed().subscribe();
+        });
   }
 
   selectProduct(productModel: ProductModel, isSelect: boolean): void {

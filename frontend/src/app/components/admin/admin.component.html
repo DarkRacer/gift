@@ -28,7 +28,7 @@
       <td mat-cell *matCellDef="let row" class="cell-selection">
         <mat-checkbox
           (click)="
-                $event.stopPropagation(); selectUser(_user(row), userAndRoleModelSelectionModel.isSelected(row))
+                $event.stopPropagation(); selectUser(_user(row))
               "
           (change)="$event ? userAndRoleModelSelectionModel.toggle(row) : null"
           [checked]="admin(_user(row))"
@@ -87,7 +87,6 @@
         </cdk-virtual-scroll-viewport>
     </div>
 
-    <label class="error" *ngIf="false">Нельзя сохранить без категории</label>
     <button mat-flat-button color="primary" class="button" (click)="save()">Сохранить</button>
   </div>
 </div>

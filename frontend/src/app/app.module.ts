@@ -36,6 +36,7 @@ import { ForbiddenComponent } from './components/exception/forbidden/forbidden.c
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent, SelectionComponent, SelfDialogComponent, UserComponent, LoginComponent, ProductsSelectionDialogComponent, AdminComponent, ForbiddenComponent, HomePageComponent],
@@ -68,7 +69,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatGridListModule,
     ScrollingModule,
     MatPaginatorModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent],

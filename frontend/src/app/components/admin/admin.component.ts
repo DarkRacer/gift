@@ -4,9 +4,9 @@ import { CategoryWordsModel } from '../../model/category-words.model';
 import { CategoryModel } from '../../model/category.model';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { UserAndRoleModel } from '../../model/user-and-role.model';
-import { MatTableDataSource } from '@angular/material/table';
 import { SelectionModel } from '@angular/cdk/collections';
 import { UserRole } from '../../model/user-role.model';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition, } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin',
@@ -25,8 +25,10 @@ export class AdminComponent implements OnInit {
   users: UserAndRoleModel[] = [];
   columns = ['id', 'picture', 'name', 'function'];
   userAndRoleModelSelectionModel = new SelectionModel<UserAndRoleModel>(true, []);
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  constructor(private readonly adminService: AdminService) { }
+  constructor(private readonly adminService: AdminService, private _snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.selectedCategories = [];
@@ -75,15 +77,28 @@ export class AdminComponent implements OnInit {
     this.selectedWordCategories?.categories = this.selectedCategories;
 
     this.adminService.save(this.selectedWordCategories).subscribe(e => {
-
-    });
+      this._snackBar.open('Успешно сохранено', 'Ок', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        panelClass: ['green-snackbar']
+      });
+    },
+      error => {
+        this._snackBar.open('Ошибка сохранения', 'Ок', {
+          duration: 3000,
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          panelClass: ['red-snackbar']
+        });
+      });
   }
 
   _user(row: any): UserAndRoleModel {
     return row as UserAndRoleModel;
   }
 
-  selectUser(userAndRoleModel: UserAndRoleModel, isSelect: boolean) {
+  selectUser(userAndRoleModel: UserAndRoleModel) {
     if (userAndRoleModel.role.indexOf(UserRole.ADMIN) == -1) {
       this.adminService.saveAdmin(userAndRoleModel).subscribe(e => {
         window.location.reload();

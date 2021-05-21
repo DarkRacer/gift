@@ -104,7 +104,7 @@ public class ProductService {
                 .forEach(productBigIntegerEntry -> resultProducts.add(productBigIntegerEntry.getKey()));
 
         if (resultProducts.size() > 5) {
-            return new ArrayList<>(checkCounter(resultProducts).subList(0, 6));
+            return new ArrayList<>(checkCounter(resultProducts).subList(0, 5));
         }
 
         return resultProducts;

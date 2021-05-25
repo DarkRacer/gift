@@ -150,6 +150,11 @@
             <version>2.4.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.blagerweij</groupId>
+            <artifactId>liquibase-sessionlock</artifactId>
+            <version>1.4.0</version>
+        </dependency>
     </dependencies>
 
 

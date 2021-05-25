@@ -149,3 +149,15 @@ databaseChangeLog:
             separator: ;
             tableName: products
             usePreparedStatements: true
+  - changeSet:
+      id: 5
+      author: Maxim Shcherbakov
+      comment: Adding roles
+      changes:
+        - sqlFile:
+            path: master/V-002.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            path: rollback/V-002.rollback.sql
+            relativeToChangelogFile: true

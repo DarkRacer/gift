@@ -125,16 +125,17 @@ public class ProductTransactionService {
 
     @Transactional
     public void saveWish(InfoTransaction infoTransactionWish) {
-        if (transactionRepo.findTransactionsWish(infoTransactionWish.getId()) == null) {
+        List<Transaction> transactions = transactionRepo.findTransactionsWish(infoTransactionWish.getId());
+        if (transactions.isEmpty()) {
             Transaction transactionWish = new Transaction();
             transactionWish.setRecipient("https://vk.com/id" +
                     userRepository.findUsersById(infoTransactionWish.getId()).getProviderUserId());
             transactionWish.setSender(userRepository.findUsersById(infoTransactionWish.getId()));
             transactionWish.setWish(true);
             transactionRepo.save(transactionWish);
-
         }
-        List<Transaction> transactions = transactionRepo.findTransactionsWish(infoTransactionWish.getId());
+
+        transactions = transactionRepo.findTransactionsWish(infoTransactionWish.getId());
         for (Transaction transaction : transactions) {
             productTransactionRepo.save(transaction.getId(),
                     productRepo.findProductById(infoTransactionWish.getProductId()).getId());

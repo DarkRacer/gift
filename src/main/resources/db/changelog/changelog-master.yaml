@@ -1,0 +1,105 @@
+databaseChangeLog:
+  - preConditions:
+      - dbms:
+          type: postgresql
+  - changeSet:
+      id: 0
+      author: Maxim Shcherbakov
+      comment: Create Schema if required
+      preConditions:
+        - onFail: MARK_RAN
+        - sqlCheck:
+            expectedResult: f
+            sql: SELECT exists(SELECT schema_name FROM information_schema.schemata WHERE schema_name = 'gift');
+      changes:
+        - sqlFile:
+            path: master/V-000.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            path: rollback/V-000.rollback.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: 1
+      author: Maxim Shcherbakov
+      comment: Initialize database
+      changes:
+        - sqlFile:
+            path: master/V-001.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sqlFile:
+            path: rollback/V-001.rollback.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: 2
+      author: Maxim Shcherbakov
+      comment: Filling in the category table
+      changes:
+        - loadUpdateData:
+            catalogName:  categories
+            columns:
+              -  column:
+                  index: 0
+                  name:  id
+                  type:  NUMERIC
+              - column:
+                  index: 1
+                  name:  name
+                  type:  STRING
+            commentLineStartsWith: //
+            encoding: UTF-8
+            file: dump/Category.csv
+            primaryKey: id
+            quotchar: ""
+            relativeToChangelogFile: true
+            schemaName: gift
+            separator: ;
+            tableName: categories
+            usePreparedStatements: true
+  - changeSet:
+      id: 3
+      author: Maxim Shcherbakov
+      comment: Filling in the products table
+      changes:
+        - loadUpdateData:
+            catalogName:  products
+            columns:
+              - column:
+                  index: 0
+                  name: id
+                  type: NUMERIC
+              - column:
+                  index: 1
+                  name: name
+                  type: STRING
+              - column:
+                  index: 2
+                  name: description
+                  type: STRING
+              - column:
+                  index: 3
+                  name: price
+                  type: NUMERIC
+              - column:
+                  index: 4
+                  name: catalog_url
+                  type: STRING
+              - column:
+                  index: 5
+                  name: category_id
+                  type: NUMERIC
+              - column:
+                  index: 6
+                  name: picture_url
+                  type: STRING
+            commentLineStartsWith: //
+            encoding: UTF-8
+            file: dump/Product.csv
+            primaryKey: id
+            quotchar: ""
+            relativeToChangelogFile: true
+            schemaName: gift
+            separator: ;
+            tableName: products
+            usePreparedStatements: true

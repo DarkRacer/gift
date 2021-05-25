@@ -130,7 +130,7 @@ public class CategoryWordsService {
                 categories.remove(category);
 
             for (Category category : categories) {
-                categoryWordsRepo.deleteById(categoryWordsRepo.findCategoryWordByCategory_IdAndWord(category.getId(), wordCategories.getWord()).getId());
+                categoryWordsRepo.deleteByCategoryAndWord(category.getId(), wordCategories.getWord());
             }
         }
 

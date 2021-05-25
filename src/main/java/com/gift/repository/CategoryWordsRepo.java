@@ -30,4 +30,7 @@ public interface CategoryWordsRepo extends JpaRepository<CategoryWord, Long> {
     void save(@Param("id") Long id, @Param("word") String word);
 
     CategoryWord findCategoryWordByCategory_IdAndWord(Long id, String word);
+
+    @Query(value = "delete from gift.category_words where category_id = :categoryId and word = :word", nativeQuery = true)
+    void deleteByCategoryAndWord(@Param("categoryId") Long categoryId, @Param("word") String word);
 }

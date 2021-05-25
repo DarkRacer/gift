@@ -18,9 +18,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class CategoryWord {
     @Id
-    @Column(name = "id")
-    private Long id;
-
     @Column(name = "word")
     private String word;
 

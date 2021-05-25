@@ -39,7 +39,7 @@ public class Users {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "picture")
+    @Column(name = "picture_url")
     private String picture;
 
     @Column(name = "provider")

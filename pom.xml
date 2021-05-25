@@ -135,11 +135,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>8.0.1</version>
@@ -150,11 +145,6 @@
             <version>2.4.4</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.blagerweij</groupId>
-            <artifactId>liquibase-sessionlock</artifactId>
-            <version>1.4.0</version>
-        </dependency>
     </dependencies>
 
 

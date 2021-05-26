@@ -39,8 +39,8 @@ public class CategoryWordsService {
         for (Category category : categories) {
             List<String> words = new ArrayList<>();
             Set<String> setTopics = new HashSet<>();
-            for (CategoryWord categoryWord : categoryWordsRepo.findCategoryWordsByCategory_Id(category.getId())) {
-                words.add(categoryWord.getWord());
+            for (CategoryWord categoryWord : categoryWordsRepo.findCategoryWordsById_Category(category.getId())) {
+                words.add(categoryWord.getId().getWord());
             }
 
             for (String word : words) {
@@ -80,11 +80,11 @@ public class CategoryWordsService {
                 List<Category> categories = new ArrayList<>();
 
                 for (CategoryWord categoryWordCheck : categoryWords) {
-                    if (Objects.equals(categoryWord.getWord().toLowerCase(), categoryWordCheck.getWord().toLowerCase())) {
-                        categories.add(categoryWordCheck.getCategory());
+                    if (Objects.equals(categoryWord.getId().getWord().toLowerCase(), categoryWordCheck.getId().getWord().toLowerCase())) {
+                        categories.add(categoryWordCheck.getId().getCategory());
                     }
                 }
-                wordCategories.setWord(categoryWord.getWord());
+                wordCategories.setWord(categoryWord.getId().getWord());
                 wordCategories.setCategories(categories);
                 wordCategoriesList.add(wordCategories);
             }
@@ -96,7 +96,7 @@ public class CategoryWordsService {
     private boolean check (CategoryWord categoryWord, List<WordCategories> wordCategoriesList) {
         if (wordCategoriesList != null) {
             for (WordCategories wordCategories : wordCategoriesList) {
-                if (categoryWord.getWord().toLowerCase().equals(wordCategories.getWord().toLowerCase())) {
+                if (categoryWord.getId().getWord().toLowerCase().equals(wordCategories.getWord().toLowerCase())) {
                     return false;
                 }
             }
@@ -111,7 +111,7 @@ public class CategoryWordsService {
         Set<Category> categoriesForSave = new HashSet<>(wordCategories.getCategories());
 
         for (CategoryWord categoryWord : categoryWords) {
-            categoriesForSave.remove(categoryWord.getCategory());
+            categoriesForSave.remove(categoryWord.getId().getCategory());
         }
 
         for (Category category : categoriesForSave) {
@@ -123,7 +123,7 @@ public class CategoryWordsService {
             List<Category> categories = new ArrayList<>();
 
             for (CategoryWord categoryWord : categoryWords) {
-                categories.add(categoryWord.getCategory());
+                categories.add(categoryWord.getId().getCategory());
             }
 
             for (Category category : wordCategories.getCategories())

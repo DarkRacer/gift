@@ -1,5 +1,6 @@
 package com.gift.model.entities;
 
+import com.gift.model.embedded.CategoryWordEmbedded;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +18,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryWord {
-    @Id
-    @Column(name = "word")
-    private String word;
-
-    @ManyToOne(targetEntity = Category.class)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @EmbeddedId
+    private CategoryWordEmbedded id;
 }

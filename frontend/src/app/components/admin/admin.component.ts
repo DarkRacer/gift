@@ -25,8 +25,6 @@ export class AdminComponent implements OnInit {
   users: UserAndRoleModel[] = [];
   columns = ['id', 'picture', 'name', 'function'];
   userAndRoleModelSelectionModel = new SelectionModel<UserAndRoleModel>(true, []);
-  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
-  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(private readonly adminService: AdminService, private _snackBar: MatSnackBar) { }
 

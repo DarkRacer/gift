@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -31,6 +32,8 @@ public interface CategoryWordsRepo extends JpaRepository<CategoryWord, Long> {
     @Query(value = "insert into gift.category_words (category_id, word) values (:id, :word)", nativeQuery = true)
     void save(@Param("id") Long id, @Param("word") String word);
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
     @Query(value = "delete from gift.category_words where category_id = :categoryId and word = :word", nativeQuery = true)
     void deleteByCategoryAndWord(@Param("categoryId") Long categoryId, @Param("word") String word);
 }

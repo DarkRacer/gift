@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic().disable()
             .authorizeRequests()
                 .antMatchers(("/oauth2/**"), ("/auth/**"), ("/login/**")).permitAll()
+                .antMatchers(("/user/saveAdmin"), ("/user/deleteAdmin"), ("/categories/save")).hasRole("ADMIN")
             .anyRequest()
                 .authenticated()
                 .and()
